@@ -4,6 +4,8 @@
  */
 package monsterslayer;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author kent
@@ -14,7 +16,17 @@ public class MonsterSlayer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("test");
+        JFrame window= new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("2D Game Tugas PBO");
+        gamePanel gp = new gamePanel();
+        window.add(gp);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+        gp.startGameThread();
+            
     }
     
 }
