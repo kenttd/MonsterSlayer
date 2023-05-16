@@ -4,6 +4,7 @@
  */
 package monsterslayer;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage;
  * @author kent
  */
 public class entity {
-    int x,y;
+    public int worldX,worldY;
     int speed;
     
     public BufferedImage up1,up2,up3,up4,up5,up6;
@@ -26,4 +27,7 @@ public class entity {
     public boolean attack=false;
     public int spriteCounter=0;
     public int spriteNum=1;
+    
+    public Rectangle solidArea;
+    public boolean collisionOn=false;
 }

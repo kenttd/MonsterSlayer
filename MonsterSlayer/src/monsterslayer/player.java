@@ -5,6 +5,7 @@
 package monsterslayer;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -16,16 +17,21 @@ import javax.imageio.ImageIO;
 public class player extends entity{
     gamePanel gp;
     keyHandler keyH;
+    public final int screenX;
+    public final int screenY;
     public player(gamePanel gp, keyHandler keyH){
         this.gp=gp;
         this.keyH=keyH;
+        screenX=gp.screenWidth/2-(gp.tileSize/2);
+        screenY=gp.screenHeight/2-(gp.tileSize/2);
         setDefaultValues();
         getPlayerImage();
+        solidArea=new Rectangle(60,64,32,20);
     }
     
     public void setDefaultValues(){
-        x=100;
-        y=100;
+        worldX=500;
+        worldY=500;
         speed=4;
         direction="down";
     }
@@ -77,19 +83,39 @@ public class player extends entity{
     }
     
     public void update() {
-    if (keyH.up || keyH.down || keyH.right || keyH.left) {
+    if (keyH.up || keyH.down || keyH.right || keyH.left&&!attack) {
         if (keyH.up == true) {
             direction = "up";
-            y -= speed;
+            
         } else if (keyH.down) {
             direction = "down";
-            y += speed;
+            
         } else if (keyH.right) {
             direction = "right";
-            x += speed;
+            
         } else if (keyH.left) {
             direction = "left";
-            x -= speed;
+            
+        }
+        // cek apakah tembok
+        collisionOn=false;
+        gp.colCheck.checkTile(this);
+        //kalau ga ada tembok baru gerak
+        if(!collisionOn){
+            switch(direction){
+                case"up":
+                    worldY -= speed;
+                    break;
+                case"down":
+                    worldY += speed;
+                    break;
+                case"left":
+                    worldX -= speed;
+                    break;
+                case"right":
+                    worldX += speed;
+                    break;
+            }
         }
         spriteCounter++;
         if (spriteCounter > 10) {
@@ -330,7 +356,7 @@ public class player extends entity{
             }
         }
         
-        g2.drawImage(image, x,y,gp.tileSize*3,gp.tileSize*3,null);
+        g2.drawImage(image, screenX,screenY,gp.tileSize*3,gp.tileSize*3,null);
 //        g2.setColor(Color.white);
 //        g2.fillRect(x, x, gp.tileSize, gp.tileSize);
     }
