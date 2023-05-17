@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import object.superObject;
 import tiles.tileManager;
 
 /**
@@ -32,11 +33,15 @@ public class gamePanel extends JPanel implements Runnable{
     public final int maxWorldRow=23;
     public final int worldWidth=tileSize*maxWorldCol;
     public final int worldHeight=tileSize*maxWorldRow;
+    public entity[] npc=new entity[10];
+    public assetSetter aSetter= new assetSetter(this);
     int fps=60;
     tileManager tileM= new tileManager(this);
+    public superObject[] obj=new superObject[10];//10 object secara bersamaan
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
+    
     public gamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -50,6 +55,7 @@ public class gamePanel extends JPanel implements Runnable{
         gameThread=new Thread(this);
         gameThread.start();
         playMusic(0);
+        setupGame();
     }
     @Override
     public void run() {
@@ -76,12 +82,29 @@ public class gamePanel extends JPanel implements Runnable{
     
     public void update(){
         player.update();
+        
+        for(int i=0; i<npc.length; i++){
+            if(npc[i]!=null){
+                npc[i].update();
+            }
+        }
     }
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2= (Graphics2D)g;
         tileM.draw(g2);
+        //item
+        for(int i=0; i<obj.length; i++){
+            if(obj[i]!=null){
+                obj[i].draw(g2, this);
+            }
+        }
+        for(int i=0; i<npc.length; i++){
+            if(npc[i]!=null){
+                npc[i].draw(g2);
+            }
+        }
         player.draw(g2);
         g2.dispose();
     }
@@ -100,5 +123,10 @@ public class gamePanel extends JPanel implements Runnable{
         sound.setFile(i);
         sound.play();
         
+    }
+    
+    public void setupGame(){
+        aSetter.setObject();
+        aSetter.setEnemyCat();
     }
 }

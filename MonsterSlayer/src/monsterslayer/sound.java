@@ -8,6 +8,7 @@ import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 /**
  *
@@ -20,6 +21,9 @@ public class sound {
     public sound(){
         
         soundURL[0]=getClass().getResource("/sound/foreverland.wav");
+        soundURL[1]=getClass().getResource("/sound/footstep.wav");
+        soundURL[2]=getClass().getResource("/sound/sword.wav");
+        soundURL[3]=getClass().getResource("/sound/pickUpPotion.wav");
     }
     
     public void setFile(int i){
@@ -27,6 +31,18 @@ public class sound {
             AudioInputStream ais=AudioSystem.getAudioInputStream(soundURL[i]);
             clip=AudioSystem.getClip();
             clip.open(ais);
+            if(i==2){
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volume.setValue(-13.0f);
+            }else if(i==1){
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volume.setValue(5.0f);
+            }else if(i==0){
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volume.setValue(-4.0f);
+            }
+            
+
         }catch(Exception e){
             
         }

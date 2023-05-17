@@ -15,23 +15,28 @@ import javax.imageio.ImageIO;
  * @author kent
  */
 public class player extends entity{
-    gamePanel gp;
+
     keyHandler keyH;
     public final int screenX;
     public final int screenY;
+    public int totalRedPotion=0;
+    
     public player(gamePanel gp, keyHandler keyH){
-        this.gp=gp;
+        super(gp);//memanggil contructor dari superclass
+
         this.keyH=keyH;
         screenX=gp.screenWidth/2-(gp.tileSize/2);
         screenY=gp.screenHeight/2-(gp.tileSize/2);
         setDefaultValues();
         getPlayerImage();
         solidArea=new Rectangle(60,64,32,20);
+        solidAreaDefaultX=solidArea.x;
+        solidAreaDefaultY=solidArea.y;
     }
     
     public void setDefaultValues(){
-        worldX=500;
-        worldY=500;
+        worldX=gp.tileSize*11;
+        worldY=gp.tileSize*11;
         speed=4;
         direction="down";
     }
@@ -100,6 +105,8 @@ public class player extends entity{
         // cek apakah tembok
         collisionOn=false;
         gp.colCheck.checkTile(this);
+        int objIndex=gp.colCheck.checkObject(this, true);
+        pickUpPotion(objIndex);
         //kalau ga ada tembok baru gerak
         if(!collisionOn){
             switch(direction){
@@ -359,5 +366,20 @@ public class player extends entity{
         g2.drawImage(image, screenX,screenY,gp.tileSize*3,gp.tileSize*3,null);
 //        g2.setColor(Color.white);
 //        g2.fillRect(x, x, gp.tileSize, gp.tileSize);
+    }
+    
+    public void pickUpPotion(int index){
+        if(index!=-1){
+            String objName=gp.obj[index].name;
+            gp.playSFX(3);
+            switch(objName){
+                case"Red Potion":
+                    totalRedPotion++;
+                    gp.obj[index]=null;
+                    System.out.println(totalRedPotion);
+                    break;
+                //bisa ditambah item lain disini
+            }
+        }
     }
 }

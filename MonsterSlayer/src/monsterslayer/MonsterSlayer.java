@@ -5,6 +5,7 @@
 package monsterslayer;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
