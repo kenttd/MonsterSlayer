@@ -12,10 +12,14 @@ import java.awt.event.KeyListener;
  * @author kent
  */
 public class keyHandler implements KeyListener{
-    boolean up,down,left,right,space;
+    boolean up,down,left,right,space,flag;
     int upcounterrr,downcounterr,leftcounterr,upcounterr;
     int soundCounter=0;
     sound sound = new sound();
+    gamePanel gp;
+    public keyHandler(gamePanel gp){
+        this.gp=gp;
+    }
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -57,6 +61,13 @@ public class keyHandler implements KeyListener{
         }else if(code==KeyEvent.VK_SPACE){
             space=true;
             playSFX(2);
+        }else if(code==KeyEvent.VK_ESCAPE){
+            if(gp.gameState==gp.playState){
+                gp.gameState=gp.pauseState;
+            }else if(gp.gameState==gp.pauseState){
+                gp.gameState=gp.playState;
+            }
+            
         }
     }
 
@@ -81,6 +92,7 @@ public class keyHandler implements KeyListener{
             right=false;
         }else if(code==KeyEvent.VK_SPACE){
             space=false;
+            flag=false;
         }
     }
     public void playMusic(int i){

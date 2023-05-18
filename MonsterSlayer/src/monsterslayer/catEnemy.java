@@ -15,11 +15,15 @@ import javax.imageio.ImageIO;
  */
 public class catEnemy extends entity {
     
-    public catEnemy(gamePanel gp) {
-        super(gp);
+    public catEnemy(gamePanel gp,player player) {
+        super(gp,player);
         direction="down";
         speed=2;//kalau mau ganti kecepatan disini
         getImage();
+//        solidArea.x=0;
+//        solidArea.y=0;
+//        solidArea.width=12;
+//        solidArea.height=16;
     }
     
     public void getImage(){
@@ -71,6 +75,21 @@ public class catEnemy extends entity {
             }
             actionLockCounter=0;
         }
-        
+        if(test(70)){
+            enemyAttackCounter++;
+            if(enemyAttackCounter==60){// menyerang setiap 1 detik
+                System.out.println("enemy detect player");
+                enemyAttackCounter=0;
+                gp.player.life-=1;
+                gp.playSFX(4);
+            }
+            
+        }
+    }
+    
+    public boolean test(int distance){
+        int dx =worldX - gp.player.worldX;
+        int dy =worldY - gp.player.worldY;
+        return Math.sqrt(dx * dx + dy * dy) <= distance;
     }
 }

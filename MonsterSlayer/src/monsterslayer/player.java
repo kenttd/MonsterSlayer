@@ -20,7 +20,7 @@ public class player extends entity{
     public final int screenX;
     public final int screenY;
     public int totalRedPotion=0;
-    
+    public long abc=0;
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
 
@@ -30,6 +30,7 @@ public class player extends entity{
         setDefaultValues();
         getPlayerImage();
         solidArea=new Rectangle(60,64,32,20);
+//        solidArea=new Rectangle(60,50,10,30);
         solidAreaDefaultX=solidArea.x;
         solidAreaDefaultY=solidArea.y;
     }
@@ -39,6 +40,9 @@ public class player extends entity{
         worldY=gp.tileSize*11;
         speed=4;
         direction="down";
+        
+        maxLife=6;
+        life=maxLife;
     }
     public void getPlayerImage(){
         try{
@@ -88,6 +92,15 @@ public class player extends entity{
     }
     
     public void update() {
+        if(keyH.space){
+            if (isPlayerNearCatEnemy(70)&&!keyH.flag){
+            abc++;
+            System.out.println("berhasil"+abc);
+            gp.npc[0].life-=1;
+            keyH.flag=true;
+            }
+        }
+        
     if (keyH.up || keyH.down || keyH.right || keyH.left&&!attack) {
         if (keyH.up == true) {
             direction = "up";
@@ -107,6 +120,9 @@ public class player extends entity{
         gp.colCheck.checkTile(this);
         int objIndex=gp.colCheck.checkObject(this, true);
         pickUpPotion(objIndex);
+        
+        int adaEnemy=gp.colCheck.checkEntity(this, gp.npc);
+        touchEnemy(adaEnemy);
         //kalau ga ada tembok baru gerak
         if(!collisionOn){
             switch(direction){
@@ -163,91 +179,7 @@ public class player extends entity{
             spriteCounter = 0;
         }
     }
-//    spriteCounter++;
-//    if (spriteCounter > 10) {
-//        if (!attack) { // walking animation
-//            if (spriteNum == 1) {
-//                spriteNum = 2;
-//            } else if (spriteNum == 2) {
-//                spriteNum = 3;
-//            } else if (spriteNum == 3) {
-//                spriteNum = 4;
-//            } else if (spriteNum == 4) {
-//                spriteNum = 5;
-//            } else if (spriteNum == 5) {
-//                spriteNum = 6;
-//            } else if (spriteNum == 6) {
-//                spriteNum = 1;
-//            }
-//        } else { // attack animation
-//            if (spriteNum == 1) {
-//                spriteNum = 2;
-//            } else if (spriteNum == 2) {
-//                spriteNum = 3;
-//            } else if (spriteNum == 3) {
-//                spriteNum = 4;
-//            } else if (spriteNum == 4) {
-//                spriteNum = 1;
-//                attack = false; // reset attack animation
-//            }
-//        }
-//        spriteCounter = 0;
-//    }
 }
-
-//    public void update(){
-//        if(keyH.up||keyH.down||keyH.right||keyH.left){
-//            if(keyH.up==true){
-//            direction="up";
-//            y-=speed;
-//            }else if(keyH.down){
-//                direction="down";
-//                y+=speed;
-//            }else if(keyH.right){
-//                direction="right";
-//                x+=speed;
-//            }else if(keyH.left){
-//                direction="left";
-//                x-=speed;
-//            }
-//            spriteCounter++;
-//            if(spriteCounter>10){
-//                if(spriteNum==1){
-//                    spriteNum=2;
-//                }else if(spriteNum==2){
-//                    spriteNum=3;
-//                }else if(spriteNum==3){
-//                    spriteNum=4;
-//                }else if(spriteNum==4){
-//                    spriteNum=5;
-//                }else if(spriteNum==5){
-//                    spriteNum=6;
-//                }else if(spriteNum==6){
-//                    spriteNum=1;
-//                }
-//                spriteCounter=0;
-//            }
-//        }else if(keyH.space&&!attack){
-//            attack=true;
-//            spriteCounter++;
-//            if(spriteCounter>10){
-//                if(spriteNum==1){
-//                    spriteNum=2;
-//                }else if(spriteNum==2){
-//                    spriteNum=3;
-//                }else if(spriteNum==3){
-//                    spriteNum=4;
-//                }else if(spriteNum==4){
-//                    spriteNum=1;
-//                    attack=false;
-//                }
-//                spriteCounter=0;
-//                
-//            }
-//            
-//        }
-//        
-//    }
     
     public void draw(Graphics2D g2){
         BufferedImage image = null;
@@ -382,4 +314,24 @@ public class player extends entity{
             }
         }
     }
+    
+    public void touchEnemy(int i){
+        if(i!=-1){
+            
+        }
+    }
+    
+    
+    public boolean isPlayerNearCatEnemy(int distance) {
+        int dx =worldX - gp.npc[0].worldX;
+        int dy =worldY - gp.npc[0].worldY;
+        return Math.sqrt(dx * dx + dy * dy) <= distance;
+        //penjelasan
+        //This method calculates the horizontal and vertical distances between 
+        //the player and the catEnemy, then uses the Pythagorean theorem to calculate 
+        //the straight-line distance between them. If this distance is less than or equal 
+        //to the specified distance parameter, the method returns true to indicate that the player 
+        //is near the catEnemy. Otherwise, it returns false.
+    }
+
 }

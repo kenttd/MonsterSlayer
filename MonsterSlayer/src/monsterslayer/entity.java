@@ -16,6 +16,7 @@ public class entity {
     public int worldX,worldY;
     int speed;
     gamePanel gp;
+    player player;
     public BufferedImage up1,up2,up3,up4,up5,up6;
     public BufferedImage down1,down2,down3,down4,down5,down6;
     public BufferedImage left1,left2,left3,left4,left5,left6;
@@ -28,16 +29,23 @@ public class entity {
     public boolean attack=false;
     public int spriteCounter=0;
     public int spriteNum=1;
-    
+    public int maxLife,life;
     
     public int actionLockCounter=0;
+    public int enemyAttackCounter=0;
     public Rectangle solidArea=new Rectangle(60,64,32,20);
     public int solidAreaDefaultX,solidAreaDefaultY;
     public boolean collisionOn=false;
     
-    public entity(gamePanel gp){
+    public entity(gamePanel gp,player player){
         this.gp=gp;
+        this.player=player;
     }
+
+    public entity(gamePanel gp) {
+        this.gp = gp;
+    }
+    
     
     public void draw(Graphics2D g2){
         BufferedImage image = null;
@@ -99,9 +107,11 @@ public class entity {
     }
     
     public void update(){
-        setAction();
+        setAction(); //panggil untuk gerakkan enemy
         collisionOn=false;
         gp.colCheck.checkTile(this);
+        gp.colCheck.checkObject(this, false);
+//        gp.colCheck.checkPlayer(this);
         if(!collisionOn){
             switch(direction){
                 case"up":

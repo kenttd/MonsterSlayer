@@ -19,7 +19,7 @@ public class assetSetter {
     }
     
     public void setObject(){
-        gp.obj[0]=new obj_redPotion();// menggunakan polymorphysm
+        gp.obj[0]=new obj_redPotion(gp);// menggunakan polymorphysm
         Random rand = new Random();
         int pilihanAntara4=(rand.nextInt(4) + 1);
         if(pilihanAntara4==1){
@@ -36,7 +36,7 @@ public class assetSetter {
             gp.obj[0].worldY=(rand.nextInt((19-4)+1)+4)*gp.tileSize;//kiri
         }
         System.out.println("pilihan 1:"+pilihanAntara4);
-        gp.obj[1]=new obj_redPotion();// menggunakan polymorphysm
+        gp.obj[1]=new obj_redPotion(gp);// menggunakan polymorphysm
         pilihanAntara4=(rand.nextInt(4) + 1);
         if(pilihanAntara4==1){
             gp.obj[1].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//atas
@@ -59,7 +59,7 @@ public class assetSetter {
     }
     
     public void setEnemyCat(){
-        gp.npc[0]=new catEnemy(gp);
+        gp.npc[0]=new catEnemy(gp,gp.player);
         gp.npc[0].worldX=gp.tileSize*13;
         gp.npc[0].worldY=gp.tileSize*3;
     }

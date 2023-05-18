@@ -6,6 +6,7 @@ package object;
 
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import monsterslayer.gamePanel;
 
 /**
  *
@@ -13,10 +14,12 @@ import javax.imageio.ImageIO;
  */
 public class obj_redPotion extends superObject{
     
-    public obj_redPotion(){
+    public obj_redPotion(gamePanel gp){
+        super(gp);
         name="Red Potion";
         try{
             image=ImageIO.read(getClass().getResourceAsStream("/objects/redPotion.png"));
+            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();
         }

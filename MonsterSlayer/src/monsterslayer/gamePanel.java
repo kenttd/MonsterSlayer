@@ -6,6 +6,7 @@ package monsterslayer;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.logging.Level;
@@ -26,7 +27,8 @@ public class gamePanel extends JPanel implements Runnable{
     public final int maxScreenRow= 12;
     public final int screenWidth= tileSize*maxScreenCol;
     public final int screenHeight= tileSize*maxScreenRow;
-    keyHandler keyH= new keyHandler();
+    keyHandler keyH= new keyHandler(this);
+    public ui ui=new ui(this);
     Thread gameThread;
     int playerX=100,playerY=100,playerSpeed=4;
     public final int maxWorldCol=23;
@@ -41,7 +43,9 @@ public class gamePanel extends JPanel implements Runnable{
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
-    
+    public int gameState;
+    public final int playState=1;
+    public final int pauseState=2;
     public gamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -49,13 +53,15 @@ public class gamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.requestFocusInWindow();
+        setupGame();
+        gameState=playState;
     }
     
     public void startGameThread(){
         gameThread=new Thread(this);
         gameThread.start();
         playMusic(0);
-        setupGame();
+        
     }
     @Override
     public void run() {
@@ -81,13 +87,19 @@ public class gamePanel extends JPanel implements Runnable{
     }
     
     public void update(){
-        player.update();
+        if(gameState==playState){
+            player.update();
         
-        for(int i=0; i<npc.length; i++){
-            if(npc[i]!=null){
-                npc[i].update();
+            for(int i=0; i<npc.length; i++){
+                if(npc[i]!=null){
+                    npc[i].update();
+                }
             }
+        }else if(gameState==pauseState){
+            
         }
+        
+        
     }
     
     public void paintComponent(Graphics g){
@@ -106,6 +118,14 @@ public class gamePanel extends JPanel implements Runnable{
             }
         }
         player.draw(g2);
+        
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        g2.setColor(Color.WHITE);
+        g2.drawString("Player Life", 10, 20);
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        g2.setColor(Color.WHITE);
+        g2.drawString("Enemy Life", tileSize*maxScreenRow, 20);
+        ui.draw(g2);
         g2.dispose();
     }
     
