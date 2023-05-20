@@ -25,6 +25,7 @@ public class sound {
         soundURL[2]=getClass().getResource("/sound/sword.wav");
         soundURL[3]=getClass().getResource("/sound/pickUpPotion.wav");
         soundURL[4]=getClass().getResource("/sound/enemyHitPlayer.wav");
+        soundURL[5]=getClass().getResource("/sound/select.wav");
     }
     
     public void setFile(int i){
@@ -32,6 +33,7 @@ public class sound {
             AudioInputStream ais=AudioSystem.getAudioInputStream(soundURL[i]);
             clip=AudioSystem.getClip();
             clip.open(ais);
+            // control volume suara
             if(i==2){
                 FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 volume.setValue(-13.0f);
@@ -44,6 +46,10 @@ public class sound {
             }else if(i==4){
                 FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 volume.setValue(50.0f);
+                System.out.println("suara");
+            }else if(i==5){
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volume.setValue(10.0f);
                 System.out.println("suara");
             }
             

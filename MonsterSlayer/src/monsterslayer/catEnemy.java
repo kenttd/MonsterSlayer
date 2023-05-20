@@ -24,6 +24,8 @@ public class catEnemy extends entity {
 //        solidArea.y=0;
 //        solidArea.width=12;
 //        solidArea.height=16;
+        maxLife=6;
+        life=maxLife;
     }
     
     public void getImage(){
@@ -43,6 +45,14 @@ public class catEnemy extends entity {
         right2=setup("catRight2");
         right3=setup("catRight3");
         right4=setup("catRight4");
+        attup1=setup("attCatUp1");
+        attup2=setup("attCatUp2");
+        attdown1=setup("attCatDown1");
+        attdown1=setup("attCatDown2");
+        attright1=setup("attCatRight1");
+        attright2=setup("attCatRight2");
+        attleft1=setup("attCatleft1");
+        attleft2=setup("attCatleft2");
     }
     
     public BufferedImage setup(String imageName){
@@ -75,21 +85,23 @@ public class catEnemy extends entity {
             }
             actionLockCounter=0;
         }
-        if(test(70)){
+        if(checkIfThereIsPlayer(70)){
             enemyAttackCounter++;
             if(enemyAttackCounter==60){// menyerang setiap 1 detik
                 System.out.println("enemy detect player");
                 enemyAttackCounter=0;
                 gp.player.life-=1;
                 gp.playSFX(4);
+                attack=true;
             }
             
         }
     }
     
-    public boolean test(int distance){
+    public boolean checkIfThereIsPlayer(int distance){
         int dx =worldX - gp.player.worldX;
         int dy =worldY - gp.player.worldY;
         return Math.sqrt(dx * dx + dy * dy) <= distance;
     }
+    
 }

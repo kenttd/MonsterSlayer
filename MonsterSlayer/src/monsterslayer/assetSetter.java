@@ -6,6 +6,7 @@ package monsterslayer;
 
 import java.util.Random;
 import object.obj_redPotion;
+import object.obj_yellowPotion;
 
 /**
  *
@@ -36,7 +37,7 @@ public class assetSetter {
             gp.obj[0].worldY=(rand.nextInt((19-4)+1)+4)*gp.tileSize;//kiri
         }
         System.out.println("pilihan 1:"+pilihanAntara4);
-        gp.obj[1]=new obj_redPotion(gp);// menggunakan polymorphysm
+        gp.obj[1]=new obj_yellowPotion(gp);// menggunakan polymorphysm
         pilihanAntara4=(rand.nextInt(4) + 1);
         if(pilihanAntara4==1){
             gp.obj[1].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//atas
@@ -62,5 +63,10 @@ public class assetSetter {
         gp.npc[0]=new catEnemy(gp,gp.player);
         gp.npc[0].worldX=gp.tileSize*13;
         gp.npc[0].worldY=gp.tileSize*3;
+    }
+    public void setEnemySlime(){
+        gp.npc[1]=new slimeEnemy(gp,gp.player);
+        gp.npc[1].worldX=gp.tileSize*3;
+        gp.npc[1].worldY=gp.tileSize*10;
     }
 }

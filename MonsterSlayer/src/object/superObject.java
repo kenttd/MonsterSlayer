@@ -34,4 +34,8 @@ public class superObject {
     public superObject(gamePanel gp){
         this.gp=gp;
     }
+    
+    public void update(){
+        
+    }
 }

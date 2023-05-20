@@ -12,13 +12,12 @@ import monsterslayer.gamePanel;
  *
  * @author kent
  */
-public class obj_redPotion extends superObject{
-    
-    public obj_redPotion(gamePanel gp){
+public class obj_yellowPotion extends superObject{
+    public obj_yellowPotion(gamePanel gp){
         super(gp);
-        name="Red Potion";
+        name="Yellow Potion";
         try{
-            image=ImageIO.read(getClass().getResourceAsStream("/objects/redPotion.png"));
+            image=ImageIO.read(getClass().getResourceAsStream("/objects/yellowPotion.png"));
             uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();
@@ -30,5 +29,4 @@ public class obj_redPotion extends superObject{
     public void update(){
         
     }
-    
 }

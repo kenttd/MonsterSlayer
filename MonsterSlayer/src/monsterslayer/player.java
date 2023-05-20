@@ -4,6 +4,7 @@
  */
 package monsterslayer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,9 @@ public class player extends entity{
     public final int screenX;
     public final int screenY;
     public int totalRedPotion=0;
+    public int totalYellowPotion=0;
     public long abc=0;
+    public int score=0;
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
 
@@ -92,11 +95,15 @@ public class player extends entity{
     }
     
     public void update() {
+        if(life<=0){
+            gp.gameState=gp.gameOverState;
+        }
         if(keyH.space){
             if (isPlayerNearCatEnemy(70)&&!keyH.flag){
             abc++;
             System.out.println("berhasil"+abc);
             gp.npc[0].life-=1;
+            score+=10;
             keyH.flag=true;
             }
         }
@@ -179,8 +186,12 @@ public class player extends entity{
             spriteCounter = 0;
         }
     }
+    if(life<=0){
+        gp.gameState=gp.gameOverState;
+    }
 }
     
+    @Override
     public void draw(Graphics2D g2){
         BufferedImage image = null;
         if(!attack){
@@ -294,8 +305,19 @@ public class player extends entity{
                     break;
             }
         }
-        
         g2.drawImage(image, screenX,screenY,gp.tileSize*3,gp.tileSize*3,null);
+        if(gp.npc[0].attack){
+            actionLockCounter++;
+            g2.setColor(new Color(255, 0, 0, 127)); // Red color with 50% transparency
+            g2.fillRect(screenX+55, screenY+60, gp.tileSize-10 , gp.tileSize+20 );
+            if(actionLockCounter==60){
+                gp.npc[0].attack=false;
+                actionLockCounter=0;
+            }
+            
+        }
+        
+        
 //        g2.setColor(Color.white);
 //        g2.fillRect(x, x, gp.tileSize, gp.tileSize);
     }
@@ -309,6 +331,13 @@ public class player extends entity{
                     totalRedPotion++;
                     gp.obj[index]=null;
                     System.out.println(totalRedPotion);
+                    life+=1;
+                    break;
+                case"Yellow Potion":
+                    totalYellowPotion++;
+                    gp.obj[index]=null;
+                    System.out.println(totalYellowPotion);
+                    speed+=4;
                     break;
                 //bisa ditambah item lain disini
             }
@@ -323,9 +352,12 @@ public class player extends entity{
     
     
     public boolean isPlayerNearCatEnemy(int distance) {
-        int dx =worldX - gp.npc[0].worldX;
-        int dy =worldY - gp.npc[0].worldY;
-        return Math.sqrt(dx * dx + dy * dy) <= distance;
+        if(gp.npc[0]!=null){
+            int dx =worldX - gp.npc[0].worldX;
+            int dy =worldY - gp.npc[0].worldY;
+            return Math.sqrt(dx * dx + dy * dy) <= distance;
+        }
+        return false;
         //penjelasan
         //This method calculates the horizontal and vertical distances between 
         //the player and the catEnemy, then uses the Pythagorean theorem to calculate 

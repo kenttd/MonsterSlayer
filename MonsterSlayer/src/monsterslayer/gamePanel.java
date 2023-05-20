@@ -21,6 +21,7 @@ import tiles.tileManager;
  */
 public class gamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16;
+    private int counterGameOver=0;
     final int scale = 3;
     public final int tileSize = originalTileSize*scale;
     public final int maxScreenCol= 16;
@@ -39,13 +40,17 @@ public class gamePanel extends JPanel implements Runnable{
     public assetSetter aSetter= new assetSetter(this);
     int fps=60;
     tileManager tileM= new tileManager(this);
-    public superObject[] obj=new superObject[10];//10 object secara bersamaan
+    public superObject[] obj=new superObject[2];//10 object secara bersamaan
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
     public int gameState;
     public final int playState=1;
     public final int pauseState=2;
+    public final int titleState=0;
+    public final int gameOverState=3;
+    public final int afterGameOverState=4;
+    public final int highScoreState=5;
     public gamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -54,7 +59,8 @@ public class gamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         this.requestFocusInWindow();
         setupGame();
-        gameState=playState;
+//        gameState=titleState;
+        gameState=titleState;
     }
     
     public void startGameThread(){
@@ -93,7 +99,11 @@ public class gamePanel extends JPanel implements Runnable{
             for(int i=0; i<npc.length; i++){
                 if(npc[i]!=null){
                     npc[i].update();
+                    npc[i].checkIfEnemyIsDead(i);
                 }
+            }
+            for(int i=0; i<obj.length; i++){
+                
             }
         }else if(gameState==pauseState){
             
@@ -105,28 +115,44 @@ public class gamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2= (Graphics2D)g;
-        tileM.draw(g2);
-        //item
-        for(int i=0; i<obj.length; i++){
-            if(obj[i]!=null){
-                obj[i].draw(g2, this);
-            }
-        }
-        for(int i=0; i<npc.length; i++){
-            if(npc[i]!=null){
-                npc[i].draw(g2);
-            }
-        }
-        player.draw(g2);
         
-        g2.setFont(new Font("Courier", Font.BOLD, 20));
-        g2.setColor(Color.WHITE);
-        g2.drawString("Player Life", 10, 20);
-        g2.setFont(new Font("Courier", Font.BOLD, 20));
-        g2.setColor(Color.WHITE);
-        g2.drawString("Enemy Life", tileSize*maxScreenRow, 20);
+        if(gameState==titleState){
+            ui.draw(g2);
+        }else if(gameState==playState){
+            tileM.draw(g2);
+            //item
+            for(int i=0; i<obj.length; i++){
+                if(obj[i]!=null){
+                    obj[i].draw(g2, this);
+                }
+            }
+            for(int i=0; i<npc.length; i++){
+                if(npc[i]!=null){
+                    npc[i].draw(g2);
+                }
+            }
+            player.draw(g2);
+
+            g2.setFont(new Font("Courier", Font.BOLD, 20));
+            g2.setColor(Color.WHITE);
+            g2.drawString("Player Life", 10, 20);
+            g2.setFont(new Font("Courier", Font.BOLD, 20));
+            g2.setColor(Color.WHITE);
+            g2.drawString("Enemy Life", tileSize*maxScreenRow, 20);
+            ui.draw(g2);
+            g2.setFont(new Font("Courier", Font.BOLD, 30));
+            g2.setColor(Color.WHITE);
+            g2.drawString("Score: "+player.score,tileSize/3 , tileSize*maxScreenRow-(tileSize/2));
+            g2.dispose();
+        }else if(gameState==gameOverState){
+            counterGameOver++;
+            if(counterGameOver==1){
+                ui.draw(g2);
+            }
+            
+        }
         ui.draw(g2);
-        g2.dispose();
+        
     }
     
     public void playMusic(int i){
@@ -147,6 +173,9 @@ public class gamePanel extends JPanel implements Runnable{
     
     public void setupGame(){
         aSetter.setObject();
+        
         aSetter.setEnemyCat();
+        aSetter.setEnemySlime();
+        
     }
 }

@@ -25,6 +25,7 @@ public class entity {
     public BufferedImage attdown1,attdown2,attdown3,attdown4;
     public BufferedImage attleft1,attleft2,attleft3,attleft4;
     public BufferedImage attright1,attright2,attright3,attright4;
+    public BufferedImage image1,image2,image3,image4,image5,image6,image7;
     public String direction;
     public boolean attack=false;
     public int spriteCounter=0;
@@ -33,7 +34,7 @@ public class entity {
     
     public int actionLockCounter=0;
     public int enemyAttackCounter=0;
-    public Rectangle solidArea=new Rectangle(60,64,32,20);
+    public Rectangle solidArea=new Rectangle(60,64,50,60);
     public int solidAreaDefaultX,solidAreaDefaultY;
     public boolean collisionOn=false;
     
@@ -98,8 +99,9 @@ public class entity {
                     }
                     break;
             }
-            g2.drawImage(image, screenX, screenY,gp.tileSize*3,gp.tileSize*3,null);
+            
         }
+        g2.drawImage(image, screenX, screenY,gp.tileSize*3,gp.tileSize*3,null);
     }
     
     public void setAction(){
@@ -112,34 +114,44 @@ public class entity {
         gp.colCheck.checkTile(this);
         gp.colCheck.checkObject(this, false);
 //        gp.colCheck.checkPlayer(this);
-        if(!collisionOn){
-            switch(direction){
-                case"up":
-                    worldY -= speed;
-                    break;
-                case"down":
-                    worldY += speed;
-                    break;
-                case"left":
-                    worldX -= speed;
-                    break;
-                case"right":
-                    worldX += speed;
-                    break;
+       
+            if(!collisionOn){
+                switch(direction){
+                    case"up":
+                        worldY -= speed;
+                        break;
+                    case"down":
+                        worldY += speed;
+                        break;
+                    case"left":
+                        worldX -= speed;
+                        break;
+                    case"right":
+                        worldX += speed;
+                        break;
+                }
             }
-        }
-        spriteCounter++;
-        if (spriteCounter > 10) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 3;
-            } else if (spriteNum == 3) {
-                spriteNum = 4;
-            } else if (spriteNum == 4) {
-                spriteNum = 1;
+            spriteCounter++;
+            if (spriteCounter > 10) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 3;
+                } else if (spriteNum == 3) {
+                    spriteNum = 4;
+                } else if (spriteNum == 4) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
-            spriteCounter = 0;
+        
+        
+    }
+    
+    public void checkIfEnemyIsDead(int i){
+        if(this.life<=0){
+            gp.npc[i]=null;
+            System.out.println("mati");
         }
     }
 }
