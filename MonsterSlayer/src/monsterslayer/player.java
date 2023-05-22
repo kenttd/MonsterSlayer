@@ -100,12 +100,19 @@ public class player extends entity{
             gp.gameState=gp.gameOverState;
         }
         if(keyH.space){
-            if (isPlayerNearCatEnemy(70)&&!keyH.flag){
+            if (isPlayerNearCatEnemy(70)&&!keyH.flagcat){
             abc++;
             System.out.println("berhasil"+abc);
             gp.npc[0].life-=1;
             score+=10;
-            keyH.flag=true;
+            keyH.flagcat=true;
+            }
+            if (isPlayerNearSlimeEnemy(500)&&!keyH.flagslime){
+            abc++;
+            System.out.println("berhasil slime"+abc);
+            gp.npc[1].life-=1;
+            score+=20;
+            keyH.flagslime=true;
             }
         }
         
@@ -332,7 +339,10 @@ public class player extends entity{
                     totalRedPotion++;
                     gp.obj[index]=null;
                     System.out.println(totalRedPotion);
-                    life+=1;
+                    if(life<=8){
+                        life+=1;
+                    }
+                    gp.quest.setQuestHave2(gp.quest.getQuestHave2()+1);
                     pickedRed=true;
                     break;
                 case"Yellow Potion":
@@ -355,6 +365,20 @@ public class player extends entity{
     
     public boolean isPlayerNearCatEnemy(int distance) {
         if(gp.npc[0]!=null){
+            int dx =worldX - gp.npc[0].worldX;
+            int dy =worldY - gp.npc[0].worldY;
+            return Math.sqrt(dx * dx + dy * dy) <= distance;
+        }
+        return false;
+        //penjelasan
+        //This method calculates the horizontal and vertical distances between 
+        //the player and the catEnemy, then uses the Pythagorean theorem to calculate 
+        //the straight-line distance between them. If this distance is less than or equal 
+        //to the specified distance parameter, the method returns true to indicate that the player 
+        //is near the catEnemy. Otherwise, it returns false.
+    }
+    public boolean isPlayerNearSlimeEnemy(int distance) {
+        if(gp.npc[1]!=null){
             int dx =worldX - gp.npc[0].worldX;
             int dy =worldY - gp.npc[0].worldY;
             return Math.sqrt(dx * dx + dy * dy) <= distance;

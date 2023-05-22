@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
  * @author kent
  */
 public class keyHandler implements KeyListener{
-    boolean up,down,left,right,space,flag;
+    boolean up,down,left,right,space,flagcat,flagslime,flagboss;
     int upcounterrr,downcounterr,leftcounterr,upcounterr;
     int soundCounter=0;
     private int pauseCounter=0;
@@ -42,7 +42,7 @@ public class keyHandler implements KeyListener{
                 gp.ui.commandNum--;
                 if(gp.ui.commandNum<0)gp.ui.commandNum=2;
                 gp.playSFX(5);
-            }else if(code==KeyEvent.VK_SPACE){
+            }else if(code==KeyEvent.VK_ENTER){
                 switch(gp.ui.commandNum){
                     case 0:
                         gp.gameState=gp.playState;
@@ -94,6 +94,13 @@ public class keyHandler implements KeyListener{
                 playSFX(2);
             }else if(code==KeyEvent.VK_SHIFT){
                 gp.player.speed+=3;
+            }else if(code==KeyEvent.VK_Q){
+                gp.gameState=gp.questState;
+            }
+        }
+        if(gp.gameState==gp.questState){
+            if(code==KeyEvent.VK_B){
+                gp.gameState=gp.playState;
             }
         }
         if(code==KeyEvent.VK_ESCAPE){
@@ -131,7 +138,9 @@ public class keyHandler implements KeyListener{
                 right=false;
             }else if(code==KeyEvent.VK_SPACE){
                 space=false;
-                flag=false;
+                flagcat=false;
+                flagslime=false;
+                flagboss=false;
             }else if(code==KeyEvent.VK_SHIFT){
                 gp.player.speed-=3;
             }

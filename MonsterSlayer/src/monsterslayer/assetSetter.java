@@ -74,4 +74,43 @@ public class assetSetter {
         gp.npc[2].worldX=gp.tileSize*20;
         gp.npc[2].worldY=gp.tileSize*14;
     }
+    
+    public void updatePotion(){
+        if(gp.obj[0]==null){
+            gp.obj[0]=new obj_redPotion(gp);// menggunakan polymorphysm
+            Random rand = new Random();
+            int pilihanAntara4=(rand.nextInt(4) + 1);
+            if(pilihanAntara4==1){
+                gp.obj[0].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[0].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
+            }else if(pilihanAntara4==2){
+                gp.obj[0].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[0].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
+            }else if(pilihanAntara4==3){
+                gp.obj[0].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+                gp.obj[0].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
+            }else{
+                gp.obj[0].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+                gp.obj[0].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
+            }
+        }else if(gp.obj[1]==null){
+            gp.obj[1]=new obj_redPotion(gp);// menggunakan polymorphysm
+            Random rand = new Random();
+            int pilihanAntara4=(rand.nextInt(4) + 1);
+            pilihanAntara4=(rand.nextInt(4) + 1);
+            if(pilihanAntara4==1){
+                gp.obj[1].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[1].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
+            }else if(pilihanAntara4==2){
+                gp.obj[1].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[1].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
+            }else if(pilihanAntara4==3){
+                gp.obj[1].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+                gp.obj[1].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
+            }else{
+                gp.obj[1].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+                gp.obj[1].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
+            }
+        }
+    }
 }

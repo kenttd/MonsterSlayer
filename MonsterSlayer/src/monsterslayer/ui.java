@@ -81,8 +81,46 @@ public class ui {
             gp.gameState=gp.afterGameOverState;
         }else if(gp.gameState==gp.highScoreState){
             drawHighScore();
+        }else if(gp.gameState==gp.questState){
+            drawQuest();
         }
         
+    }
+    public void drawQuest(){
+        g2.setColor(new Color(205,115,99));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        
+        g2.setFont(new Font("Courier", Font.BOLD, 80));
+        String text="Quest";
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int x=gp.screenWidth/2-(length/2);
+        int y=gp.screenHeight/6;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+10, y+10);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        text=gp.quest.getQuestName1();
+        x=gp.screenWidth/10;
+        y+=gp.tileSize*2;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        text=gp.quest.getQuestName2();
+        x=gp.screenWidth/10;
+        y+=gp.tileSize;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        text="Press [b] to get back to resume the game";
+        x=gp.screenWidth/10;
+        y+=gp.tileSize*3;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
     }
     public void drawHighScore(){
         List<scoreHandler> scores = new ArrayList<>();
@@ -120,7 +158,7 @@ public class ui {
         if(scores.size()>5){
             for (int i = 0; i < 5; i++) {
                 scoreHandler score = scores.get(i);
-                text=score.getName() + " - " + score.getScore();
+                text=(i+1)+". "+score.getName() + " - " + score.getScore();
                 length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
                 x=gp.screenWidth/3;
                 y+=gp.tileSize;
@@ -132,7 +170,7 @@ public class ui {
         }else{
             for (int i = 0; i < scores.size(); i++) {
                 scoreHandler score = scores.get(i);
-                text=score.getName() + " - " + score.getScore();
+                text=(i+1)+". "+score.getName() + " - " + score.getScore();
                 length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
                 x=gp.screenWidth/3;
                 y+=gp.tileSize;
@@ -142,7 +180,7 @@ public class ui {
                 g2.drawString(text, x, y);
             }
             for(int i=0; i<5-scores.size(); i++){
-                text="-";
+                text=(scores.size()+i)+". "+"-";
                 length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
                 x=gp.screenWidth/3;
                 y+=gp.tileSize;

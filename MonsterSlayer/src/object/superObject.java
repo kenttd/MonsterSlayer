@@ -15,7 +15,7 @@ import monsterslayer.utilityTool;
  * @author kent
  */
 public class superObject {
-    gamePanel gp;
+    private gamePanel gp;
     public BufferedImage image,image1,image2;
     public String name;
     public boolean collision=false;

@@ -152,6 +152,28 @@ public class entity {
         if(this.life<=0){
             gp.npc[i]=null;
             System.out.println("mati");
+            switch(i){
+                case 0:
+//                    gp.quest.setQuestName1("bisa");
+                    System.out.println(gp.quest.getQuestName1());
+                    gp.quest.setQuestHave1(gp.quest.getQuestHave1()+1);
+                    System.out.println(gp.quest.getQuestHave1());
+                    System.out.println(gp.quest.getQuestName1());
+                    gp.aSetter.setEnemyCat();
+                    gp.player.score+=50;
+                    break;
+                case 1:
+                    gp.aSetter.setEnemySlime();
+                    gp.player.score+=30;
+                    break;
+                case 2:
+                    gp.aSetter.setEnemyBoss();
+                    break;
+            }
         }
+    }
+    
+    public void updateQuest(int i){
+        
     }
 }

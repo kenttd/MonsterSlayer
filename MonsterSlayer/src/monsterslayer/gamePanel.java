@@ -31,6 +31,7 @@ public class gamePanel extends JPanel implements Runnable{
     keyHandler keyH= new keyHandler(this);
     public ui ui=new ui(this);
     Thread gameThread;
+    quest quest= new quest(this);
     int playerX=100,playerY=100,playerSpeed=4;
     public final int maxWorldCol=38;
     public final int maxWorldRow=37;
@@ -40,7 +41,7 @@ public class gamePanel extends JPanel implements Runnable{
     public assetSetter aSetter= new assetSetter(this);
     int fps=60;
     tileManager tileM= new tileManager(this);
-    public superObject[] obj=new superObject[2];//10 object secara bersamaan
+    public superObject[] obj=new superObject[2];//2 object secara bersamaan
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
@@ -51,6 +52,8 @@ public class gamePanel extends JPanel implements Runnable{
     public final int gameOverState=3;
     public final int afterGameOverState=4;
     public final int highScoreState=5;
+    public final int questState=6;
+    
     public gamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -94,6 +97,7 @@ public class gamePanel extends JPanel implements Runnable{
     
     public void update(){
         if(gameState==playState){
+            quest.updateQuest();
             player.update();
         
             for(int i=0; i<npc.length; i++){
@@ -105,6 +109,7 @@ public class gamePanel extends JPanel implements Runnable{
             for(int i=0; i<obj.length; i++){
                 
             }
+            aSetter.updatePotion();
         }else if(gameState==pauseState){
             
         }
@@ -138,7 +143,7 @@ public class gamePanel extends JPanel implements Runnable{
             g2.drawString("Player Life", 10, 20);
             g2.setFont(new Font("Courier", Font.BOLD, 20));
             g2.setColor(Color.WHITE);
-            g2.drawString("Enemy Life", tileSize*maxScreenRow, 20);
+            g2.drawString("Enemy Life"+npc[1].life  , tileSize*maxScreenRow, 20);
             ui.draw(g2);
             g2.setFont(new Font("Courier", Font.BOLD, 30));
             g2.setColor(Color.WHITE);
