@@ -24,33 +24,33 @@ public class assetSetter {
         Random rand = new Random();
         int pilihanAntara4=(rand.nextInt(4) + 1);
         if(pilihanAntara4==1){
-            gp.obj[0].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//atas
-            gp.obj[0].worldY=(rand.nextInt((8-5)+1)+5)*gp.tileSize;//atas
+            gp.obj[0].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[0].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
         }else if(pilihanAntara4==2){
-            gp.obj[0].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//bawah
-            gp.obj[0].worldY=(rand.nextInt((19-13)+1)+13)*gp.tileSize;//bawah
+            gp.obj[0].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[0].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
         }else if(pilihanAntara4==3){
-            gp.obj[0].worldX=(rand.nextInt((22-15)+1)+15)*gp.tileSize;//kanan
-            gp.obj[0].worldY=(rand.nextInt((20-4)+1)+4)*gp.tileSize;//kanan
+            gp.obj[0].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+            gp.obj[0].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
         }else{
-            gp.obj[0].worldX=(rand.nextInt((9-2)+1)+2)*gp.tileSize;//kiri
-            gp.obj[0].worldY=(rand.nextInt((19-4)+1)+4)*gp.tileSize;//kiri
+            gp.obj[0].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+            gp.obj[0].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
         }
         System.out.println("pilihan 1:"+pilihanAntara4);
         gp.obj[1]=new obj_yellowPotion(gp);// menggunakan polymorphysm
         pilihanAntara4=(rand.nextInt(4) + 1);
         if(pilihanAntara4==1){
-            gp.obj[1].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//atas
-            gp.obj[1].worldY=(rand.nextInt((8-5)+1)+5)*gp.tileSize;//atas
+            gp.obj[1].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[1].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
         }else if(pilihanAntara4==2){
-            gp.obj[1].worldX=(rand.nextInt((22-2)+1)+2)*gp.tileSize;//bawah
-            gp.obj[1].worldY=(rand.nextInt((19-13)+1)+13)*gp.tileSize;//bawah
+            gp.obj[1].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[1].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
         }else if(pilihanAntara4==3){
-            gp.obj[1].worldX=(rand.nextInt((22-15)+1)+15)*gp.tileSize;//kanan
-            gp.obj[1].worldY=(rand.nextInt((20-4)+1)+4)*gp.tileSize;//kanan
+            gp.obj[1].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+            gp.obj[1].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
         }else{
-            gp.obj[1].worldX=(rand.nextInt((9-2)+1)+2)*gp.tileSize;//kiri
-            gp.obj[1].worldY=(rand.nextInt((19-4)+1)+4)*gp.tileSize;//kiri
+            gp.obj[1].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+            gp.obj[1].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
         }
          System.out.println("pilihan 2:"+pilihanAntara4);
         System.out.println("0 worldx:"+gp.obj[0].worldX);
@@ -61,12 +61,17 @@ public class assetSetter {
     
     public void setEnemyCat(){
         gp.npc[0]=new catEnemy(gp,gp.player);
-        gp.npc[0].worldX=gp.tileSize*13;
-        gp.npc[0].worldY=gp.tileSize*3;
+        gp.npc[0].worldX=gp.tileSize*24;
+        gp.npc[0].worldY=gp.tileSize*11;
     }
     public void setEnemySlime(){
         gp.npc[1]=new slimeEnemy(gp,gp.player);
-        gp.npc[1].worldX=gp.tileSize*3;
-        gp.npc[1].worldY=gp.tileSize*10;
+        gp.npc[1].worldX=gp.tileSize*25;
+        gp.npc[1].worldY=gp.tileSize*22;
+    }
+    public void setEnemyBoss(){
+        gp.npc[2]=new bossEnemy(gp,gp.player);
+        gp.npc[2].worldX=gp.tileSize*20;
+        gp.npc[2].worldY=gp.tileSize*14;
     }
 }

@@ -92,6 +92,8 @@ public class keyHandler implements KeyListener{
             }else if(code==KeyEvent.VK_SPACE){
                 space=true;
                 playSFX(2);
+            }else if(code==KeyEvent.VK_SHIFT){
+                gp.player.speed+=3;
             }
         }
         if(code==KeyEvent.VK_ESCAPE){
@@ -130,6 +132,8 @@ public class keyHandler implements KeyListener{
             }else if(code==KeyEvent.VK_SPACE){
                 space=false;
                 flag=false;
+            }else if(code==KeyEvent.VK_SHIFT){
+                gp.player.speed-=3;
             }
         }
         

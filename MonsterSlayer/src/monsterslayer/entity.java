@@ -25,7 +25,7 @@ public class entity {
     public BufferedImage attdown1,attdown2,attdown3,attdown4;
     public BufferedImage attleft1,attleft2,attleft3,attleft4;
     public BufferedImage attright1,attright2,attright3,attright4;
-    public BufferedImage image1,image2,image3,image4,image5,image6,image7;
+    public BufferedImage image1,image2,image3,image4,image5,image6,image7,image8;
     public String direction;
     public boolean attack=false;
     public int spriteCounter=0;

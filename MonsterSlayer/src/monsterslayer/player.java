@@ -24,6 +24,7 @@ public class player extends entity{
     public int totalYellowPotion=0;
     public long abc=0;
     public int score=0;
+    public boolean pickedRed=false;
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
 
@@ -39,8 +40,8 @@ public class player extends entity{
     }
     
     public void setDefaultValues(){
-        worldX=gp.tileSize*11;
-        worldY=gp.tileSize*11;
+        worldX=gp.tileSize*9;
+        worldY=gp.tileSize*10;
         speed=4;
         direction="down";
         
@@ -128,8 +129,8 @@ public class player extends entity{
         int objIndex=gp.colCheck.checkObject(this, true);
         pickUpPotion(objIndex);
         
-        int adaEnemy=gp.colCheck.checkEntity(this, gp.npc);
-        touchEnemy(adaEnemy);
+//        int adaEnemy=gp.colCheck.checkEntity(this, gp.npc);
+//        touchEnemy(adaEnemy);
         //kalau ga ada tembok baru gerak
         if(!collisionOn){
             switch(direction){
@@ -332,6 +333,7 @@ public class player extends entity{
                     gp.obj[index]=null;
                     System.out.println(totalRedPotion);
                     life+=1;
+                    pickedRed=true;
                     break;
                 case"Yellow Potion":
                     totalYellowPotion++;

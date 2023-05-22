@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,12 +38,14 @@ public class ui {
     gamePanel gp;
     Font courier;
     Graphics2D g2;
+    private int spriteNumBoss=1,spriteBossCounter=0;
     BufferedImage heart_full,heart_half,heart_blank;
+    BufferedImage image1,image2,image3,image4,image5,image6,image7,image8;
     public boolean messageOn=false;
     public String message="";
     public int messageCounter=0;
     public int commandNum=0;
-    
+    private int redPotionC=0;
     double playTime;
     DecimalFormat dFormat=new DecimalFormat("#0.00");
     
@@ -54,6 +57,7 @@ public class ui {
         heart_full=heart.image;
         heart_half=heart.image1;
         heart_blank=heart.image2;
+        getImage();
     }
     
     public void showMessage(String text){
@@ -250,12 +254,15 @@ public class ui {
         x=20;
         y=gp.screenHeight-(gp.screenHeight/2)-50;
         g2.drawImage(gp.player.attdown1, x, y,gp.tileSize*4,gp.tileSize*4,null);
+        x=gp.screenWidth-(gp.screenWidth/2)+20;
+        y=gp.screenHeight-(gp.screenHeight/2)-140;
+        g2.drawImage(getImageBoss(), x, y,gp.tileSize*10,gp.tileSize*10,null);
         // menu
         g2.setFont(new Font("Courier", Font.BOLD, 40));
         text="New Game";
         length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x=gp.screenWidth/2-(length/2);
-        y+=gp.tileSize*2;
+        y=(gp.screenHeight-(gp.screenHeight/2)-50)+gp.tileSize*2;
         g2.drawString(text, x, y);
         if(commandNum==0){
             g2.drawString(">", x-gp.tileSize, y);
@@ -281,11 +288,38 @@ public class ui {
     }
     
     public void drawWhenScreenIsPaused(){
+        g2.setColor(new Color(205,115,99));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         String text="PAUSED";
         
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x=gp.screenWidth/2-(length/2);
-        int y=gp.screenHeight/2;
+        int y=gp.screenHeight/4;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+10, y+10);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        text="Control: ";
+        x=gp.screenWidth/10;
+        y+=gp.tileSize*2;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        text="[W][A][S][D] to move";
+        x=gp.screenWidth/10;
+        y+=gp.tileSize;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        text="[Q] to see available quest";
+        x=gp.screenWidth/10;
+        y+=gp.tileSize;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
         g2.drawString(text, x, y);
     }
     public void drawPlayerLife(){
@@ -341,5 +375,98 @@ public class ui {
             }
         }
         
+    }
+    
+    public void ifPlayerPickedUpRedPotion(){
+        System.out.println("etst");
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        String text="You picked up red potion.";
+        int x=gp.screenWidth/10-50;
+        int y=gp.screenHeight/2+40;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        redPotionC++;
+        
+    }
+
+    public int getRedPotionC() {
+        return redPotionC;
+    }
+
+    public void setRedPotionC(int redPotionC) {
+        this.redPotionC = redPotionC;
+    }
+    
+    public BufferedImage getImageBoss(){
+        BufferedImage image=null;
+        spriteBossCounter++;
+        if (spriteBossCounter > 10) {
+            
+            if (spriteNumBoss == 1) {
+                spriteNumBoss = 2;
+            } else if (spriteNumBoss == 2) {
+                spriteNumBoss = 3;
+            } else if (spriteNumBoss == 3) {
+                spriteNumBoss = 4;
+            } else if (spriteNumBoss == 4) {
+                spriteNumBoss = 5;
+            }else if (spriteNumBoss == 5) {
+                spriteNumBoss = 6;
+            } else if (spriteNumBoss == 6) {
+                spriteNumBoss = 7;
+            } else if (spriteNumBoss == 7) {
+                spriteNumBoss = 8;
+            } else if (spriteNumBoss == 8) {
+                spriteNumBoss = 1;
+            }
+            spriteBossCounter=0;
+            if(spriteNumBoss>8)spriteNumBoss=0;
+        }
+        if(spriteNumBoss==1){
+            image=image1;
+        }else if(spriteNumBoss==2){
+            image=image2;
+        }else if(spriteNumBoss==3){
+            image=image3;
+        }else if(spriteNumBoss==4){
+            image=image4;
+        }else if(spriteNumBoss==5){
+            image=image5;
+        }else if(spriteNumBoss==6){
+            image=image6;
+        }else if(spriteNumBoss==7){
+            image=image7;
+        }else if(spriteNumBoss==8){
+            image=image8;
+        }
+        
+        return image;
+    }
+    
+    public void getImage(){
+        image1=setup("idle1");
+        image2=setup("idle2");
+        image3=setup("idle3");
+        image4=setup("idle4");
+        image5=setup("idle5");
+        image6=setup("idle6");
+        image7=setup("idle7");
+        image8=setup("idle8");
+    }
+    
+    public BufferedImage setup(String imageName){
+        utilityTool uTool=new utilityTool();
+        BufferedImage image=null;
+        
+        try{
+            image=ImageIO.read(getClass().getResourceAsStream("/enemyBoss/"+imageName+".png"));
+            image=uTool.scaleImage(image, gp.tileSize*8, gp.tileSize*8);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        return image;
     }
 }

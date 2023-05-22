@@ -32,8 +32,8 @@ public class gamePanel extends JPanel implements Runnable{
     public ui ui=new ui(this);
     Thread gameThread;
     int playerX=100,playerY=100,playerSpeed=4;
-    public final int maxWorldCol=23;
-    public final int maxWorldRow=23;
+    public final int maxWorldCol=38;
+    public final int maxWorldRow=37;
     public final int worldWidth=tileSize*maxWorldCol;
     public final int worldHeight=tileSize*maxWorldRow;
     public entity[] npc=new entity[10];
@@ -143,6 +143,15 @@ public class gamePanel extends JPanel implements Runnable{
             g2.setFont(new Font("Courier", Font.BOLD, 30));
             g2.setColor(Color.WHITE);
             g2.drawString("Score: "+player.score,tileSize/3 , tileSize*maxScreenRow-(tileSize/2));
+            if(player.pickedRed&&ui.getRedPotionC()<=180){
+                ui.ifPlayerPickedUpRedPotion();
+                ui.setRedPotionC(ui.getRedPotionC()+1);
+            }
+            else if(ui.getRedPotionC()>180){
+                ui.setRedPotionC(0);
+                player.pickedRed=false;
+            }
+            
             g2.dispose();
         }else if(gameState==gameOverState){
             counterGameOver++;
@@ -176,6 +185,7 @@ public class gamePanel extends JPanel implements Runnable{
         
         aSetter.setEnemyCat();
         aSetter.setEnemySlime();
+        aSetter.setEnemyBoss();
         
     }
 }

@@ -4,3 +4,6 @@ coba 0
 testtt 0
 abc 0
 rank1 40
+testrank2 30
+score30 30
+y 20
