@@ -12,8 +12,9 @@ import java.awt.Graphics2D;
  */
 public class quest {
     gamePanel gp;
-    private String questName1,questName2;
-    private int questHave1=0,questRequired1=1,questHave2=0,questRequired2=1;
+    private String questName1,questName2,questName3;
+    private int questHave1=0,questRequired1=5,questHave2=0,questRequired2=5;
+    private int questHave3=0,questRequired3=3;
     private boolean quest1,quest2;
     public quest(gamePanel gp){
         this.gp=gp;
@@ -25,9 +26,13 @@ public class quest {
         }else if(questHave2==questRequired2){
             questHave2=0;
             questRequired2++;
+        }else if(questHave3==questRequired3){
+            questHave3=0;
+            questRequired3++;
         }
         questName1="("+questHave1+"/"+questRequired1+") kill the cat enemy "+questRequired1+" times";
-        questName2="("+questHave2+"/"+questRequired2+") pick up red potion "+questRequired2+" times";
+        questName2="("+questHave2+"/"+questRequired2+") pick up any potion "+questRequired2+" times";
+        questName3="("+questHave3+"/"+questRequired3+") kill the slime enemy "+questRequired3+" times";
     }
     public void setQuestName1(String questName1) {
         this.questName1 = questName1;
@@ -91,6 +96,30 @@ public class quest {
 
     public void setQuest2(boolean quest2) {
         this.quest2 = quest2;
+    }
+
+    public String getQuestName3() {
+        return questName3;
+    }
+
+    public void setQuestName3(String questName3) {
+        this.questName3 = questName3;
+    }
+
+    public int getQuestHave3() {
+        return questHave3;
+    }
+
+    public void setQuestHave3(int questHave3) {
+        this.questHave3 = questHave3;
+    }
+
+    public int getQuestRequired3() {
+        return questRequired3;
+    }
+
+    public void setQuestRequired3(int questRequired3) {
+        this.questRequired3 = questRequired3;
     }
     
     

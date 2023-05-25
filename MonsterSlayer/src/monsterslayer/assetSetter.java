@@ -5,6 +5,7 @@
 package monsterslayer;
 
 import java.util.Random;
+import object.obj_blackPotion;
 import object.obj_redPotion;
 import object.obj_yellowPotion;
 
@@ -52,7 +53,22 @@ public class assetSetter {
             gp.obj[1].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
             gp.obj[1].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
         }
-         System.out.println("pilihan 2:"+pilihanAntara4);
+        gp.obj[2]=new obj_blackPotion(gp);// menggunakan polymorphysm
+        pilihanAntara4=(rand.nextInt(4) + 1);
+        if(pilihanAntara4==1){
+            gp.obj[2].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[2].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
+        }else if(pilihanAntara4==2){
+            gp.obj[2].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+            gp.obj[2].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
+        }else if(pilihanAntara4==3){
+            gp.obj[2].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+            gp.obj[2].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
+        }else{
+            gp.obj[2].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+            gp.obj[2].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
+        }
+        System.out.println("pilihan 2:"+pilihanAntara4);
         System.out.println("0 worldx:"+gp.obj[0].worldX);
         System.out.println("0 worldy:"+gp.obj[0].worldY);
         System.out.println("1 worldx:"+gp.obj[1].worldX);
@@ -110,6 +126,24 @@ public class assetSetter {
             }else{
                 gp.obj[1].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
                 gp.obj[1].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
+            }
+        }else if(gp.obj[2]==null){
+            gp.obj[2]=new obj_blackPotion(gp);// menggunakan polymorphysm
+            Random rand = new Random();
+            int pilihanAntara4=(rand.nextInt(4) + 1);
+            pilihanAntara4=(rand.nextInt(4) + 1);
+            if(pilihanAntara4==1){
+                gp.obj[2].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[2].worldY=(rand.nextInt((14-11)+1)+11)*gp.tileSize;//atas
+            }else if(pilihanAntara4==2){
+                gp.obj[2].worldX=(rand.nextInt((30-10)+1)+10)*gp.tileSize;//atas
+                gp.obj[2].worldY=(rand.nextInt((25-19)+1)+19)*gp.tileSize;//bawah
+            }else if(pilihanAntara4==3){
+                gp.obj[2].worldX=(rand.nextInt((30-23)+1)+23)*gp.tileSize;//kanan
+                gp.obj[2].worldY=(rand.nextInt((26-10)+1)+10)*gp.tileSize;//kanan
+            }else{
+                gp.obj[2].worldX=(rand.nextInt((17-10)+1)+10)*gp.tileSize;//kiri
+                gp.obj[2].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
             }
         }
     }

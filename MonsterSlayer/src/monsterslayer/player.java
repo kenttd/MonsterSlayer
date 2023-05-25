@@ -349,7 +349,13 @@ public class player extends entity{
                     totalYellowPotion++;
                     gp.obj[index]=null;
                     System.out.println(totalYellowPotion);
+                    gp.quest.setQuestHave2(gp.quest.getQuestHave2()+1);
                     speed+=4;
+                    break;
+                case"Black Potion":
+                    gp.player.speed-=1;
+                    gp.obj[index]=null;
+                    gp.quest.setQuestHave2(gp.quest.getQuestHave2()+1);
                     break;
                 //bisa ditambah item lain disini
             }

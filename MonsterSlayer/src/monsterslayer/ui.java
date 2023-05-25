@@ -101,22 +101,35 @@ public class ui {
         g2.drawString(text, x, y);
         g2.setFont(new Font("Courier", Font.BOLD, 20));
         text=gp.quest.getQuestName1();
-        x=gp.screenWidth/10;
+        x=gp.screenWidth/10-30;
         y+=gp.tileSize*2;
+        g2.drawImage(gp.npc[0].down1, x, y-55,gp.tileSize*2,gp.tileSize*2,null); // gambar icon
+        x=gp.screenWidth/10+40;
         g2.setColor(Color.black);
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);
         g2.drawString(text, x, y);
         text=gp.quest.getQuestName2();
         x=gp.screenWidth/10;
-        y+=gp.tileSize;
+        y+=gp.tileSize*2;
+        g2.drawImage(gp.obj[0].image, x, y-30,gp.tileSize/2+10,gp.tileSize/2+10,null); // gambar icon
+        x=gp.screenWidth/10+40;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        text=gp.quest.getQuestName3();
+        x=gp.screenWidth/10-15;
+        y+=gp.tileSize*2;
+        g2.drawImage(gp.npc[1].image5, x, y-40,gp.tileSize+12,gp.tileSize+12,null); // gambar icon
+        x=gp.screenWidth/10+40;
         g2.setColor(Color.black);
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);
         g2.drawString(text, x, y);
         text="Press [b] to get back to resume the game";
         x=gp.screenWidth/10;
-        y+=gp.tileSize*3;
+        y+=gp.tileSize*2;
         g2.setColor(Color.black);
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);

@@ -41,7 +41,7 @@ public class gamePanel extends JPanel implements Runnable{
     public assetSetter aSetter= new assetSetter(this);
     int fps=60;
     tileManager tileM= new tileManager(this);
-    public superObject[] obj=new superObject[2];//2 object secara bersamaan
+    public superObject[] obj=new superObject[3];//2 object secara bersamaan
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
