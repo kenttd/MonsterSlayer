@@ -23,7 +23,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -39,7 +38,7 @@ public class ui {
     Font courier;
     Graphics2D g2;
     private int spriteNumBoss=1,spriteBossCounter=0;
-    BufferedImage heart_full,heart_half,heart_blank;
+    BufferedImage heart_full,heart_half,heart_blank,pause,pauseHover,save,saveHover;
     BufferedImage image1,image2,image3,image4,image5,image6,image7,image8;
     public boolean messageOn=false;
     public String message="";
@@ -72,8 +71,10 @@ public class ui {
         if(gp.gameState==gp.playState){
             drawPlayerLife();
             drawEnemyLife();
+            drawPauseButton();
         }else if(gp.gameState==gp.pauseState){
             drawWhenScreenIsPaused();
+            drawSaveButton();
         }else if(gp.gameState==gp.titleState){
             drawTitleScreen();
         }else if(gp.gameState==gp.gameOverState){
@@ -85,6 +86,25 @@ public class ui {
             drawQuest();
         }
         
+    }
+    
+    public void drawSaveButton(){
+        BufferedImage temp;
+        if(gp.mouseH.isSaveHover()){
+            temp=saveHover;
+        }else temp=save;
+        int x=gp.screenWidth-50;
+        int y=gp.screenHeight-50;
+        g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
+    }
+    public void drawPauseButton(){
+        BufferedImage temp;
+        if(gp.mouseH.isPauseHover()){
+            temp=pauseHover;
+        }else temp=pause;
+        int x=gp.screenWidth-50;
+        int y=gp.screenHeight-50;
+        g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
     }
     public void drawQuest(){
         g2.setColor(new Color(205,115,99));
@@ -204,9 +224,13 @@ public class ui {
             }
         }
         g2.setFont(new Font("Courier", Font.BOLD, 20));
-        text="Press [b] to get back to the main menu";
+        text="← Back";
         x=gp.screenWidth/10;
         y+=gp.tileSize*2;
+        length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        if(gp.mouseH.isBackHighHover()){
+            drawHover(x, y, length);
+        }
         g2.setColor(Color.black);
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);
@@ -244,13 +268,13 @@ public class ui {
         nameField.setBounds(100, 10, 160, 25);
         frame.add(nameField);
 
-        JLabel ageLabel = new JLabel("Age:");
-        ageLabel.setBounds(10, 40, 80, 25);
-        frame.add(ageLabel);
-
-        JSpinner ageSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 120, 1));
-        ageSpinner.setBounds(100, 40, 160, 25);
-        frame.add(ageSpinner);
+//        JLabel ageLabel = new JLabel("Age:");
+//        ageLabel.setBounds(10, 40, 80, 25);
+//        frame.add(ageLabel);
+//
+//        JSpinner ageSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 120, 1));
+//        ageSpinner.setBounds(100, 40, 160, 25);
+//        frame.add(ageSpinner);
 
         JButton submitButton = new JButton("Submit");
         submitButton.setBounds(10, 80, 80, 25);
@@ -314,30 +338,37 @@ public class ui {
         length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x=gp.screenWidth/2-(length/2);
         y=(gp.screenHeight-(gp.screenHeight/2)-50)+gp.tileSize*2;
-        g2.drawString(text, x, y);
-        if(commandNum==0){
-            g2.drawString(">", x-gp.tileSize, y);
+        if(gp.mouseH.isGameHover()){
+            drawHover(x, y,length);
         }
+        g2.drawString(text, x, y);
         text="High Scores";
         length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x=gp.screenWidth/2-(length/2);
         y+=gp.tileSize+20;
-        g2.drawString(text, x, y);
-        if(commandNum==1){
-            g2.drawString(">", x-gp.tileSize, y);
+        if(gp.mouseH.isHighHover()){
+            drawHover(x, y,length);
         }
+        
+        g2.drawString(text, x, y);
         text="Quit";
         length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x=gp.screenWidth/2-(length/2);
         y+=gp.tileSize+20;
-        g2.drawString(text, x, y);
-        if(commandNum==2){
-            g2.drawString(">", x-gp.tileSize, y);
+        if(gp.mouseH.isQuitHover()){
+            drawHover(x, y,length);
         }
+        
+        g2.drawString(text, x, y);
         
         
     }
     
+    public void drawHover(int x,int y,int length){
+        g2.setColor(new Color(0,0,0)); 
+        g2.fillRect(x-15, y-50, length+30 , gp.tileSize+20 );
+        g2.setColor(white);
+    }
     public void drawWhenScreenIsPaused(){
         g2.setColor(new Color(205,115,99));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -497,14 +528,18 @@ public class ui {
     }
     
     public void getImage(){
-        image1=setup("idle1");
-        image2=setup("idle2");
-        image3=setup("idle3");
-        image4=setup("idle4");
-        image5=setup("idle5");
-        image6=setup("idle6");
-        image7=setup("idle7");
-        image8=setup("idle8");
+        image1=setup("/enemyBoss/idle1");
+        image2=setup("/enemyBoss/idle2");
+        image3=setup("/enemyBoss/idle3");
+        image4=setup("/enemyBoss/idle4");
+        image5=setup("/enemyBoss/idle5");
+        image6=setup("/enemyBoss/idle6");
+        image7=setup("/enemyBoss/idle7");
+        image8=setup("/enemyBoss/idle8");
+        pause=setup("/objects/pauseButton");
+        pauseHover=setup("/objects/pauseButtonHover");
+        save=setup("/objects/saveButton");
+        saveHover=setup("/objects/saveButtonHover");
     }
     
     public BufferedImage setup(String imageName){
@@ -512,7 +547,7 @@ public class ui {
         BufferedImage image=null;
         
         try{
-            image=ImageIO.read(getClass().getResourceAsStream("/enemyBoss/"+imageName+".png"));
+            image=ImageIO.read(getClass().getResourceAsStream(imageName+".png"));
             image=uTool.scaleImage(image, gp.tileSize*8, gp.tileSize*8);
         }catch(IOException e){
             e.printStackTrace();

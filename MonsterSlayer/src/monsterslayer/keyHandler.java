@@ -42,6 +42,7 @@ public class keyHandler implements KeyListener{
                 gp.ui.commandNum--;
                 if(gp.ui.commandNum<0)gp.ui.commandNum=2;
                 gp.playSFX(5);
+                System.out.println("w");
             }else if(code==KeyEvent.VK_ENTER){
                 switch(gp.ui.commandNum){
                     case 0:

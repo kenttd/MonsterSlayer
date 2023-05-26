@@ -29,6 +29,7 @@ public class gamePanel extends JPanel implements Runnable{
     public final int screenWidth= tileSize*maxScreenCol;
     public final int screenHeight= tileSize*maxScreenRow;
     keyHandler keyH= new keyHandler(this);
+    mouseHandler mouseH= new mouseHandler(this);
     public ui ui=new ui(this);
     Thread gameThread;
     quest quest= new quest(this);
@@ -59,6 +60,8 @@ public class gamePanel extends JPanel implements Runnable{
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseListener(mouseH);
+        this.addMouseMotionListener(mouseH);
         this.setFocusable(true);
         this.requestFocusInWindow();
         setupGame();
@@ -157,7 +160,7 @@ public class gamePanel extends JPanel implements Runnable{
                 player.pickedRed=false;
             }
             
-            g2.dispose();
+            
         }else if(gameState==gameOverState){
             counterGameOver++;
             if(counterGameOver==1){
@@ -166,7 +169,7 @@ public class gamePanel extends JPanel implements Runnable{
             
         }
         ui.draw(g2);
-        
+        g2.dispose();
     }
     
     public void playMusic(int i){

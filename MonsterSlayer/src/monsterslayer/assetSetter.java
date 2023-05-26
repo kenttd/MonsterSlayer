@@ -110,7 +110,7 @@ public class assetSetter {
                 gp.obj[0].worldY=(rand.nextInt((25-11)+1)+11)*gp.tileSize;//kiri
             }
         }else if(gp.obj[1]==null){
-            gp.obj[1]=new obj_redPotion(gp);// menggunakan polymorphysm
+            gp.obj[1]=new obj_yellowPotion(gp);// menggunakan polymorphysm
             Random rand = new Random();
             int pilihanAntara4=(rand.nextInt(4) + 1);
             pilihanAntara4=(rand.nextInt(4) + 1);
