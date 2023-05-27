@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 /**
@@ -25,6 +26,7 @@ public class player extends entity{
     public long abc=0;
     public int score=0;
     public boolean pickedRed=false;
+    private HashMap<String,Integer> inventory= new HashMap<>();
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
 
@@ -47,6 +49,10 @@ public class player extends entity{
         
         maxLife=6;
         life=maxLife;
+        inventory.put("Apple", 0);
+        inventory.put("Honey", 0);
+        inventory.put("Wine", 0);
+        inventory.put("Peach", 0);
     }
     public void getPlayerImage(){
         try{
@@ -324,7 +330,12 @@ public class player extends entity{
             }
             
         }
-        
+        double oneScale=(double)gp.tileSize/maxLife;
+            double hpBarValue=oneScale*life;
+            g2.setColor(new Color(35,35,35));
+            g2.fillRect(screenX+51, screenY+31,gp.tileSize, gp.tileSize/4+1);
+            g2.setColor(new Color(255,0,30));
+            g2.fillRect(screenX+50, screenY+30, (int)hpBarValue, gp.tileSize/4);
         
 //        g2.setColor(Color.white);
 //        g2.fillRect(x, x, gp.tileSize, gp.tileSize);
@@ -356,6 +367,26 @@ public class player extends entity{
                     gp.player.speed-=1;
                     gp.obj[index]=null;
                     gp.quest.setQuestHave2(gp.quest.getQuestHave2()+1);
+                    break;
+                case"Apple":
+                    inventory.replace("Apple", inventory.get("Apple")+1);
+                    System.out.println(inventory.get("Apple"));
+                    gp.obj[index]=null;
+                    break;
+                case"Honey":
+                    inventory.replace("Honey", inventory.get("Honey")+1);
+                    System.out.println(inventory.get("Honey"));
+                    gp.obj[index]=null;
+                    break;
+                case"Peach":
+                    inventory.replace("Peach", inventory.get("Peach")+1);
+                    System.out.println(inventory.get("Peach"));
+                    gp.obj[index]=null;
+                    break;
+                case"Wine":
+                    inventory.replace("Wine", inventory.get("Wine")+1);
+                    System.out.println(inventory.get("Wine"));
+                    gp.obj[index]=null;
                     break;
                 //bisa ditambah item lain disini
             }

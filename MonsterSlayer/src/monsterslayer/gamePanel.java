@@ -42,7 +42,7 @@ public class gamePanel extends JPanel implements Runnable{
     public assetSetter aSetter= new assetSetter(this);
     int fps=60;
     tileManager tileM= new tileManager(this);
-    public superObject[] obj=new superObject[3];//2 object secara bersamaan
+    public superObject[] obj=new superObject[20];//2 object secara bersamaan
     sound sound = new sound();
     collisionChecker colCheck=new collisionChecker(this);
     public player player = new player(this,keyH);
@@ -54,7 +54,9 @@ public class gamePanel extends JPanel implements Runnable{
     public final int afterGameOverState=4;
     public final int highScoreState=5;
     public final int questState=6;
-    
+    public final int shopState=7;
+    public final int confSaveState=8;
+    public final int loadFileState=9;
     public gamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.black);
@@ -141,12 +143,6 @@ public class gamePanel extends JPanel implements Runnable{
             }
             player.draw(g2);
 
-            g2.setFont(new Font("Courier", Font.BOLD, 20));
-            g2.setColor(Color.WHITE);
-            g2.drawString("Player Life", 10, 20);
-            g2.setFont(new Font("Courier", Font.BOLD, 20));
-            g2.setColor(Color.WHITE);
-            g2.drawString("Enemy Life"+npc[1].life  , tileSize*maxScreenRow, 20);
             ui.draw(g2);
             g2.setFont(new Font("Courier", Font.BOLD, 30));
             g2.setColor(Color.WHITE);

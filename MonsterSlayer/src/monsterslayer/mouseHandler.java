@@ -17,7 +17,7 @@ import java.io.IOException;
 public class mouseHandler implements MouseListener,MouseMotionListener{
     gamePanel gp;
     int x,y;
-    private boolean gameHover=false,highHover=false,quitHover=false,backHighHover=false,pauseHover=false,saveHover=false;
+    private boolean gameHover=false,highHover=false,quitHover=false,backHighHover=false,pauseHover=false,saveHover=false,shopHover=false;
     public mouseHandler(gamePanel gp){
         this.gp=gp;
     }
@@ -39,14 +39,16 @@ public class mouseHandler implements MouseListener,MouseMotionListener{
                 gp.gameState=gp.titleState;
             }
         }else if(gp.gameState==gp.playState){
-            if(y>=530&&y<=570&&x>=720&&x<=765){
+            if(y>=0&&y<=50&&x>=720&&x<=765){
                 gp.gameState=gp.pauseState;
+            }else if(y>=0&&y<=50&&x>=665&&x<=715){
+                gp.gameState=gp.shopState;
             }
         }else if(gp.gameState==gp.pauseState){
-            if(y>=530&&y<=570&&x>=720&&x<=765){
+            if(y>=0&&y<=50&&x>=720&&x<=765){
                 try
                 {
-                    String filename= "highScores.txt";
+                    String filename= "lastSave.txt";
                     FileWriter fw = new FileWriter(filename,false); // tidak append tapi overwrite
                     fw.write(gp.player.life+" "+gp.player.score);//overwrite the string to the file
                     fw.close();
@@ -97,12 +99,15 @@ public class mouseHandler implements MouseListener,MouseMotionListener{
         if(y>=470&&y<=500&&x>=65&&x<=160){
             backHighHover=true;
         }else backHighHover=false;
-        if(y>=530&&y<=570&&x>=720&&x<=765&&gp.gameState==gp.playState){
+        if(y>=0&&y<=50&&x>=720&&x<=765&&gp.gameState==gp.playState){
             pauseHover=true;
         }else pauseHover=false;
-        if(y>=530&&y<=570&&x>=720&&x<=765&&gp.gameState==gp.pauseState){
+        if(y>=0&&y<=50&&x>=720&&x<=765&&gp.gameState==gp.pauseState){
             saveHover=true;
         }else saveHover=false;
+        if(y>=0&&y<=50&&x>=665&&x<=715&&gp.gameState==gp.playState){
+            shopHover=true;
+        }else shopHover=false;
         System.out.println("x: "+x+", y"+y);
     }
 
@@ -152,6 +157,14 @@ public class mouseHandler implements MouseListener,MouseMotionListener{
 
     public void setSaveHover(boolean saveHover) {
         this.saveHover = saveHover;
+    }
+
+    public boolean isShopHover() {
+        return shopHover;
+    }
+
+    public void setShopHover(boolean shopHover) {
+        this.shopHover = shopHover;
     }
     
     

@@ -4,6 +4,7 @@
  */
 package monsterslayer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -245,5 +246,11 @@ public class bossEnemy extends entity{
             
         }
         g2.drawImage(image, screenX, screenY,gp.tileSize*6,gp.tileSize*6,null);
+        double oneScale=(double)gp.tileSize/maxLife;
+        double hpBarValue=oneScale*life;
+        g2.setColor(new Color(35,35,35));
+        g2.fillRect(screenX+51, screenY+31,gp.tileSize, gp.tileSize/4+1);
+        g2.setColor(new Color(255,0,30));
+        g2.fillRect(screenX+50, screenY+30, (int)hpBarValue, gp.tileSize/4);
     }
 }

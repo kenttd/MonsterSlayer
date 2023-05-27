@@ -4,9 +4,16 @@
  */
 package monsterslayer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
+import object.obj_apple;
+import object.obj_honey;
+import object.obj_peach;
+import object.obj_wine;
+import object.superObject;
 
 /**
  *
@@ -31,7 +38,8 @@ public class entity {
     public int spriteCounter=0;
     public int spriteNum=1;
     public int maxLife,life;
-    
+    private boolean alive=true,dying=false;
+    private int dyingCounter=0;
     public int actionLockCounter=0;
     public int enemyAttackCounter=0;
     public Rectangle solidArea=new Rectangle(60,64,50,60);
@@ -99,9 +107,27 @@ public class entity {
                     }
                     break;
             }
+            // hp bar
+            double oneScale=(double)gp.tileSize/maxLife;
+            double hpBarValue=oneScale*life;
+            g2.setColor(new Color(35,35,35));
+            g2.fillRect(screenX+51, screenY+31,gp.tileSize, gp.tileSize/4+1);
+            g2.setColor(new Color(255,0,30));
+            g2.fillRect(screenX+50, screenY+30, (int)hpBarValue, gp.tileSize/4);
+            
             
         }
-        g2.drawImage(image, screenX, screenY,gp.tileSize*3,gp.tileSize*3,null);
+        if(dying){
+            dyingAnimation(g2);
+        }
+        else g2.drawImage(image, screenX, screenY,gp.tileSize*3,gp.tileSize*3,null);
+    }
+    
+    public void dyingAnimation(Graphics2D g2){
+        dyingCounter++;
+        if(dyingCounter<=5){
+            
+        }
     }
     
     public void setAction(){
@@ -150,8 +176,21 @@ public class entity {
     
     public void checkIfEnemyIsDead(int i){
         if(this.life<=0){
-            gp.npc[i]=null;
+            gp.npc[i].setDying(true);
             System.out.println("mati");
+            Random rand= new Random();
+            int result= rand.nextInt(4-1)+1+1;
+            superObject temp;
+            if(result==1){
+                temp=new obj_apple(gp);
+            }else if(result==2){
+                temp=new obj_honey(gp);
+            }else if(result==3){
+                temp=new obj_peach(gp);
+            }else{
+                temp=new obj_wine(gp);
+            }
+            dropItem(temp, gp.npc[i].worldX, gp.npc[i].worldY);
             switch(i){
                 case 0:
 //                    gp.quest.setQuestName1("bisa");
@@ -170,10 +209,48 @@ public class entity {
                     gp.aSetter.setEnemyBoss();
                     break;
             }
+            
+        }
+    }
+    public void dropItem(superObject item,int x,int y){
+        int i=0;
+        while(gp.obj[i]!=null){
+            i++;
+        }
+        if(i<gp.obj.length){
+            gp.obj[i]=item;
+            gp.obj[i].worldX=x;
+            gp.obj[i].worldY=y;
         }
     }
     
     public void updateQuest(int i){
         
     }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isDying() {
+        return dying;
+    }
+
+    public void setDying(boolean dying) {
+        this.dying = dying;
+    }
+
+    public int getDyingCounter() {
+        return dyingCounter;
+    }
+
+    public void setDyingCounter(int dyingCounter) {
+        this.dyingCounter = dyingCounter;
+    }
+    
+    
 }

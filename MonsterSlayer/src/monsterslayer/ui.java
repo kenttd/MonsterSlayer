@@ -37,9 +37,10 @@ public class ui {
     gamePanel gp;
     Font courier;
     Graphics2D g2;
-    private int spriteNumBoss=1,spriteBossCounter=0;
-    BufferedImage heart_full,heart_half,heart_blank,pause,pauseHover,save,saveHover;
+    private int spriteNumBoss=1,spriteBossCounter=0,spriteNumCoin=1,spriteCoinCounter=0;
+    BufferedImage heart_full,heart_half,heart_blank,pause,pauseHover,save,saveHover,shop,shopHover;
     BufferedImage image1,image2,image3,image4,image5,image6,image7,image8;
+    BufferedImage coinimage1,coinimage2,coinimage3,coinimage4,coinimage5,coinimage6,coinimage7,coinimage8;
     public boolean messageOn=false;
     public String message="";
     public int messageCounter=0;
@@ -69,8 +70,8 @@ public class ui {
         g2.setFont(courier);
         g2.setColor(white);
         if(gp.gameState==gp.playState){
-            drawPlayerLife();
-            drawEnemyLife();
+//            drawPlayerLife();
+//            drawEnemyLife();
             drawPauseButton();
         }else if(gp.gameState==gp.pauseState){
             drawWhenScreenIsPaused();
@@ -84,8 +85,35 @@ public class ui {
             drawHighScore();
         }else if(gp.gameState==gp.questState){
             drawQuest();
+        }else if(gp.gameState==gp.shopState){
+            drawShop();
         }
         
+    }
+    public void drawShop(){
+        g2.setColor(new Color(205,115,99));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        
+        g2.setFont(new Font("Courier", Font.BOLD, 80));
+        String text="Trade";
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int x=gp.screenWidth/2-(length/2);
+        int y=gp.screenHeight/6;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+10, y+10);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        g2.setFont(new Font("Courier", Font.PLAIN, 20));
+        text="Trade the dropped item for coins";
+        length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x=gp.screenWidth/10;
+        y+=gp.tileSize*2;
+        g2.setColor(Color.black);
+        g2.drawString(text, x+5, y+5);
+        g2.setColor(white);
+        g2.drawString(text, x, y);
+        x+=length+5;
+        g2.drawImage(getImageCoin(), x, y,gp.tileSize,gp.tileSize,null);
     }
     
     public void drawSaveButton(){
@@ -94,8 +122,9 @@ public class ui {
             temp=saveHover;
         }else temp=save;
         int x=gp.screenWidth-50;
-        int y=gp.screenHeight-50;
+        int y=0;
         g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
+        
     }
     public void drawPauseButton(){
         BufferedImage temp;
@@ -103,7 +132,13 @@ public class ui {
             temp=pauseHover;
         }else temp=pause;
         int x=gp.screenWidth-50;
-        int y=gp.screenHeight-50;
+        int y=0;
+        g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
+        if(gp.mouseH.isShopHover()){
+            temp=shopHover;
+        }else temp=shop;
+        x-=gp.tileSize+5;
+        y=0;
         g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
     }
     public void drawQuest(){
@@ -288,6 +323,7 @@ public class ui {
                     FileWriter fw = new FileWriter(filename,true); //the true will append the new data
                     fw.write("\n"+name+" "+gp.player.score);//appends the string to the file
                     fw.close();
+                    gp.player.life=gp.player.maxLife;
                 }
                 catch(IOException ioe)
                 {
@@ -536,10 +572,20 @@ public class ui {
         image6=setup("/enemyBoss/idle6");
         image7=setup("/enemyBoss/idle7");
         image8=setup("/enemyBoss/idle8");
+        coinimage1=setup("/objects/1");
+        coinimage2=setup("/objects/2");
+        coinimage3=setup("/objects/3");
+        coinimage4=setup("/objects/4");
+        coinimage5=setup("/objects/5");
+        coinimage6=setup("/objects/6");
+        coinimage7=setup("/objects/7");
+        coinimage8=setup("/objects/8");
         pause=setup("/objects/pauseButton");
         pauseHover=setup("/objects/pauseButtonHover");
         save=setup("/objects/saveButton");
         saveHover=setup("/objects/saveButtonHover");
+        shop=setup("/objects/shopButton");
+        shopHover=setup("/objects/shopButtonHover");
     }
     
     public BufferedImage setup(String imageName){
@@ -553,6 +599,52 @@ public class ui {
             e.printStackTrace();
         }
         
+        return image;
+    }
+    
+    public BufferedImage getImageCoin(){
+        BufferedImage image=null;
+        spriteCoinCounter++;
+        if (spriteCoinCounter > 10) {
+            
+            if (spriteNumCoin == 1) {
+                spriteNumCoin = 2;
+            } else if (spriteNumCoin == 2) {
+                spriteNumCoin = 3;
+            } else if (spriteNumCoin == 3) {
+                spriteNumCoin = 4;
+            } else if (spriteNumCoin == 4) {
+                spriteNumCoin = 5;
+            }else if (spriteNumCoin == 5) {
+                spriteNumCoin = 6;
+            } else if (spriteNumCoin == 6) {
+                spriteNumCoin = 7;
+            } else if (spriteNumCoin == 7) {
+                spriteNumCoin = 8;
+            } else if (spriteNumCoin == 8) {
+                spriteNumCoin = 1;
+            }
+            spriteCoinCounter=0;
+            if(spriteNumCoin>8)spriteNumCoin=0;
+        }
+        if(spriteNumCoin==1){
+            image=coinimage1;
+        }else if(spriteNumCoin==2){
+            image=coinimage2;
+        }else if(spriteNumCoin==3){
+            image=coinimage3;
+        }else if(spriteNumCoin==4){
+            image=coinimage4;
+        }else if(spriteNumCoin==5){
+            image=coinimage5;
+        }else if(spriteNumCoin==6){
+            image=coinimage6;
+        }else if(spriteNumCoin==7){
+            image=coinimage7;
+        }else if(spriteNumCoin==8){
+            image=coinimage8;
+        }
+        System.out.println(spriteNumCoin);
         return image;
     }
 }
