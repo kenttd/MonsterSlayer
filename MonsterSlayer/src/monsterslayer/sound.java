@@ -32,7 +32,7 @@ public class sound {
         try{
             AudioInputStream ais=AudioSystem.getAudioInputStream(soundURL[i]);
             clip=AudioSystem.getClip();
-            clip.open(ais);
+//            clip.open(ais);
             // control volume suara
             if(i==2){
                 FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

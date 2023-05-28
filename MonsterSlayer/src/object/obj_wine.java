@@ -17,7 +17,7 @@ public class obj_wine extends superObject{
         super(gp);
         name="Wine";
         try{
-            image=ImageIO.read(getClass().getResourceAsStream("/objects/honey.png"));
+            image=ImageIO.read(getClass().getResourceAsStream("/objects/wine.png"));
             uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();

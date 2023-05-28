@@ -17,7 +17,7 @@ public class obj_peach extends superObject{
         super(gp);
         name="Peach";
         try{
-            image=ImageIO.read(getClass().getResourceAsStream("/objects/honey.png"));
+            image=ImageIO.read(getClass().getResourceAsStream("/objects/peach.png"));
             uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         }catch(IOException e){
             e.printStackTrace();

@@ -26,6 +26,7 @@ public class player extends entity{
     public long abc=0;
     public int score=0;
     public boolean pickedRed=false;
+    private int gold=0;
     private HashMap<String,Integer> inventory= new HashMap<>();
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
@@ -428,5 +429,22 @@ public class player extends entity{
         //to the specified distance parameter, the method returns true to indicate that the player 
         //is near the catEnemy. Otherwise, it returns false.
     }
+
+    public HashMap<String, Integer> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(HashMap<String, Integer> inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+    
 
 }

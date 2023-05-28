@@ -26,9 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import object.obj_heart;
-import object.superObject;
 
+import object.*;
 /**
  *
  * @author kent
@@ -38,10 +37,11 @@ public class ui {
     Font courier;
     Graphics2D g2;
     private int spriteNumBoss=1,spriteBossCounter=0,spriteNumCoin=1,spriteCoinCounter=0;
-    BufferedImage heart_full,heart_half,heart_blank,pause,pauseHover,save,saveHover,shop,shopHover;
-    BufferedImage image1,image2,image3,image4,image5,image6,image7,image8;
+    BufferedImage heart_full,heart_half,heart_blank,pause,pauseHover,save,saveHover,shop,shopHover,quest,questHover;
+    BufferedImage image1,image2,image3,image4,image5,image6,image7,image8,wine,peach,apple,honey,cross,crossHover;
     BufferedImage coinimage1,coinimage2,coinimage3,coinimage4,coinimage5,coinimage6,coinimage7,coinimage8;
     public boolean messageOn=false;
+    private boolean confLoad=false,confSave=false;
     public String message="";
     public int messageCounter=0;
     public int commandNum=0;
@@ -58,6 +58,14 @@ public class ui {
         heart_half=heart.image1;
         heart_blank=heart.image2;
         getImage();
+        superObject wine= new obj_wine(gp);
+        superObject peach= new obj_peach(gp);
+        superObject apple= new obj_apple(gp);
+        superObject honey= new obj_honey(gp);
+        this.wine=wine.image;
+        this.peach=peach.image;
+        this.apple=apple.image;
+        this.honey=honey.image;
     }
     
     public void showMessage(String text){
@@ -72,12 +80,16 @@ public class ui {
         if(gp.gameState==gp.playState){
 //            drawPlayerLife();
 //            drawEnemyLife();
+            drawQuestButton();
             drawPauseButton();
         }else if(gp.gameState==gp.pauseState){
             drawWhenScreenIsPaused();
             drawSaveButton();
         }else if(gp.gameState==gp.titleState){
             drawTitleScreen();
+            if(confLoad){
+                drawConfLoad();
+            }
         }else if(gp.gameState==gp.gameOverState){
             drawGameOver();
             gp.gameState=gp.afterGameOverState;
@@ -89,6 +101,21 @@ public class ui {
             drawShop();
         }
         
+    }
+    
+    public void drawConfLoad(){
+        int x=gp.screenWidth/4;
+        int y=gp.screenHeight/5;
+        BufferedImage temp;
+        if(gp.mouseH.isBackHighHover())temp=crossHover;
+        else temp=cross;
+        g2.setColor(new Color(133, 187, 101,190));
+        g2.fillRect(x, y, 400, 300);
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        g2.setColor(Color.black);
+        g2.drawString("You have successfully loaded ", x+10, y+150);
+        g2.drawString("the most recent save.", x+10, y+170);
+        g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
     }
     public void drawShop(){
         g2.setColor(new Color(205,115,99));
@@ -107,13 +134,148 @@ public class ui {
         text="Trade the dropped item for coins";
         length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x=gp.screenWidth/10;
-        y+=gp.tileSize*2;
+        y+=gp.tileSize+10;
         g2.setColor(Color.black);
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);
         g2.drawString(text, x, y);
-        x+=length+5;
+        x+=length+10;
+        y-=25;
         g2.drawImage(getImageCoin(), x, y,gp.tileSize,gp.tileSize,null);
+        g2.setFont(new Font("Courier", Font.BOLD, 20));
+        //kotak 1
+        x=gp.screenWidth/10-60;
+        y+=gp.tileSize*2-10;
+        int oriY=y;
+        g2.setColor(new Color(255,255,255,170));
+        g2.fillRect(x, y, gp.screenWidth/4-30, 220);
+        x+=(gp.screenWidth/4-30)/2-25;
+        y+=10;
+        g2.drawImage(apple, x, y, gp.tileSize, gp.tileSize, null);
+        y+=gp.tileSize+30;
+        g2.setColor(Color.black);
+        g2.drawString("Apple", x, y);
+        g2.setFont(new Font("Courier", Font.PLAIN, 15));
+        y+=30;
+        x-=((gp.screenWidth/4-30)/2-25)-5;
+        g2.drawString("1 -> 15", x, y);
+        y+=30;
+        g2.drawString("You have: "+gp.player.getInventory().get("Apple"), x, y);
+        x+=30;
+        y+=30;
+        if(gp.mouseH.isShop1()){
+            g2.setColor(new Color(133, 187, 101));
+        }else g2.setColor(Color.black);
+        g2.fillRect(x, y, 80, 40);
+        g2.setColor(Color.black);
+        x+=23;
+        y+=25;
+        if(gp.mouseH.isShop1()){
+            g2.setColor(Color.black);
+        }else g2.setColor(white);
+        g2.drawString("Sell", x, y);
+        //kotak 2
+        x=(gp.screenWidth/10-60)+(gp.screenWidth/4);
+        y=oriY;
+        g2.setColor(new Color(255,255,255,170));
+        g2.fillRect(x, y, gp.screenWidth/4-30, 220);
+        x+=(gp.screenWidth/4-30)/2-25;
+        y+=10;
+        g2.drawImage(honey, x, y, gp.tileSize, gp.tileSize, null);
+        y+=gp.tileSize+30;
+        g2.setColor(Color.black);
+        g2.drawString("Honey", x, y);
+        g2.setFont(new Font("Courier", Font.PLAIN, 15));
+        y+=30;
+        x-=((gp.screenWidth/4-30)/2-25)-5;
+        g2.drawString("1 -> 20", x, y);
+        y+=30;
+        g2.drawString("You have: "+gp.player.getInventory().get("Honey"), x, y);
+        x+=30;
+        y+=30;
+        if(gp.mouseH.isShop2()){
+            g2.setColor(new Color(133, 187, 101));
+        }else g2.setColor(Color.black);
+        g2.fillRect(x, y, 80, 40);
+        g2.setColor(Color.black);
+        x+=23;
+        y+=25;
+        if(gp.mouseH.isShop2()){
+            g2.setColor(Color.black);
+        }else g2.setColor(white);
+        g2.drawString("Sell", x, y);
+        //kotak 3
+        x=(gp.screenWidth/10-60)+((gp.screenWidth/4)*2);
+        y=oriY;
+        g2.setColor(new Color(255,255,255,170));
+        g2.fillRect(x, y, gp.screenWidth/4-30, 220);
+        x+=(gp.screenWidth/4-30)/2-25;
+        y+=10;
+        g2.drawImage(peach, x, y, gp.tileSize, gp.tileSize, null);
+        y+=gp.tileSize+30;
+        g2.setColor(Color.black);
+        g2.drawString("Peach", x, y);
+        g2.setFont(new Font("Courier", Font.PLAIN, 15));
+        y+=30;
+        x-=((gp.screenWidth/4-30)/2-25)-5;
+        g2.drawString("1 -> 15", x, y);
+        y+=30;
+        g2.drawString("You have: "+gp.player.getInventory().get("Peach"), x, y);
+        x+=30;
+        y+=30;
+        if(gp.mouseH.isShop3()){
+            g2.setColor(new Color(133, 187, 101));
+        }else g2.setColor(Color.black);
+        g2.fillRect(x, y, 80, 40);
+        g2.setColor(Color.black);
+        x+=23;
+        y+=25;
+        if(gp.mouseH.isShop3()){
+            g2.setColor(Color.black);
+        }else g2.setColor(white);
+        g2.drawString("Sell", x, y);
+        //kotak 4
+        x=(gp.screenWidth/10-60)+((gp.screenWidth/4)*3);
+        y=oriY;
+        g2.setColor(new Color(255,255,255,170));
+        g2.fillRect(x, y, gp.screenWidth/4-30, 220);
+        x+=(gp.screenWidth/4-30)/2-25;
+        y+=10;
+        g2.drawImage(wine, x, y, gp.tileSize, gp.tileSize, null);
+        y+=gp.tileSize+30;
+        g2.setColor(Color.black);
+        g2.drawString("Wine", x, y);
+        g2.setFont(new Font("Courier", Font.PLAIN, 15));
+        y+=30;
+        x-=((gp.screenWidth/4-30)/2-25)-5;
+        g2.drawString("1 -> 15", x, y);
+        y+=30;
+        g2.drawString("You have: "+gp.player.getInventory().get("Wine"), x, y);
+        x+=30;
+        y+=30;
+        if(gp.mouseH.isShop4()){
+            g2.setColor(new Color(133, 187, 101));
+        }else g2.setColor(Color.black);
+        g2.fillRect(x, y, 80, 40);
+        g2.setColor(Color.black);
+        x+=23;
+        y+=25;
+        if(gp.mouseH.isShop4()){
+            g2.setColor(Color.black);
+        }else g2.setColor(white);
+        g2.drawString("Sell", x, y);
+        // coin player
+        x=(gp.screenWidth/10-60);
+        y=gp.screenHeight-80;
+        g2.drawImage(getImageCoin(), x, y,gp.tileSize,gp.tileSize,null);
+        x+=gp.tileSize+10;
+        y+=gp.tileSize-10;
+        g2.setFont(new Font("Courier", Font.BOLD, 30));
+        g2.drawString(Integer.toString(gp.player.getGold()), x, y);
+        BufferedImage temp;
+        if(gp.mouseH.isBackHighHover())temp=crossHover;
+        else temp=cross;
+        g2.drawImage(temp, 5, 5,gp.tileSize,gp.tileSize,null);
     }
     
     public void drawSaveButton(){
@@ -139,6 +301,15 @@ public class ui {
         }else temp=shop;
         x-=gp.tileSize+5;
         y=0;
+        g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
+    }
+    public void drawQuestButton(){
+        BufferedImage temp;
+        if(gp.mouseH.isBackHighHover()){
+            temp=questHover;
+        }else temp=quest;
+        int x=5;
+        int y=5;
         g2.drawImage(temp, x, y,gp.tileSize,gp.tileSize,null);
     }
     public void drawQuest(){
@@ -191,6 +362,7 @@ public class ui {
         g2.drawString(text, x, y);
     }
     public void drawHighScore(){
+        
         List<scoreHandler> scores = new ArrayList<>();
 
         // Read the scores from the file
@@ -258,18 +430,10 @@ public class ui {
                 g2.drawString(text, x, y);
             }
         }
-        g2.setFont(new Font("Courier", Font.BOLD, 20));
-        text="← Back";
-        x=gp.screenWidth/10;
-        y+=gp.tileSize*2;
-        length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        if(gp.mouseH.isBackHighHover()){
-            drawHover(x, y, length);
-        }
-        g2.setColor(Color.black);
-        g2.drawString(text, x+5, y+5);
-        g2.setColor(white);
-        g2.drawString(text, x, y);
+        BufferedImage temp;
+        if(gp.mouseH.isBackHighHover())temp=crossHover;
+        else temp=cross;
+        g2.drawImage(temp, 5, 5,gp.tileSize,gp.tileSize,null);
     }
     public void drawAfterGameOver(){
         g2.setColor(new Color(205,115,99));
@@ -385,6 +549,14 @@ public class ui {
         if(gp.mouseH.isHighHover()){
             drawHover(x, y,length);
         }
+        g2.drawString(text, x, y);
+        text="Load Last Save";
+        length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x=gp.screenWidth/2-(length/2);
+        y+=gp.tileSize+20;
+        if(gp.mouseH.isLoadHover()){
+            drawHover(x, y,length);
+        }
         
         g2.drawString(text, x, y);
         text="Quit";
@@ -406,6 +578,7 @@ public class ui {
         g2.setColor(white);
     }
     public void drawWhenScreenIsPaused(){
+        
         g2.setColor(new Color(205,115,99));
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
         String text="PAUSED";
@@ -439,6 +612,10 @@ public class ui {
         g2.drawString(text, x+5, y+5);
         g2.setColor(white);
         g2.drawString(text, x, y);
+        BufferedImage temp;
+        if(gp.mouseH.isBackHighHover())temp=crossHover;
+        else temp=cross;
+        g2.drawImage(temp, 5, 5,gp.tileSize,gp.tileSize,null);
     }
     public void drawPlayerLife(){
         // letak heart
@@ -586,6 +763,10 @@ public class ui {
         saveHover=setup("/objects/saveButtonHover");
         shop=setup("/objects/shopButton");
         shopHover=setup("/objects/shopButtonHover");
+        cross=setup("/objects/crossButton");
+        crossHover=setup("/objects/crossButtonHover");
+        quest=setup("/objects/questButton");
+        questHover=setup("/objects/questButtonHover");
     }
     
     public BufferedImage setup(String imageName){
@@ -605,7 +786,7 @@ public class ui {
     public BufferedImage getImageCoin(){
         BufferedImage image=null;
         spriteCoinCounter++;
-        if (spriteCoinCounter > 10) {
+        if (spriteCoinCounter > 10) { // ganti gambar setiap 10 frame
             
             if (spriteNumCoin == 1) {
                 spriteNumCoin = 2;
@@ -644,7 +825,24 @@ public class ui {
         }else if(spriteNumCoin==8){
             image=coinimage8;
         }
-        System.out.println(spriteNumCoin);
         return image;
     }
+
+    public boolean isConfLoad() {
+        return confLoad;
+    }
+
+    public void setConfLoad(boolean confLoad) {
+        this.confLoad = confLoad;
+    }
+
+    public boolean isConfSave() {
+        return confSave;
+    }
+
+    public void setConfSave(boolean confSave) {
+        this.confSave = confSave;
+    }
+    
+    
 }
