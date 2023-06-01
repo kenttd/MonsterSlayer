@@ -27,6 +27,7 @@ public class player extends entity{
     public int score=0;
     public boolean pickedRed=false;
     private int gold=0;
+    public int hpbar=gp.tileSize;
     private HashMap<String,Integer> inventory= new HashMap<>();
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
@@ -341,7 +342,10 @@ public class player extends entity{
         double oneScale=(double)gp.tileSize/maxLife;
             double hpBarValue=oneScale*life;
             g2.setColor(new Color(35,35,35));
-            g2.fillRect(screenX+51, screenY+31,gp.tileSize, gp.tileSize/4+1);
+            if(hpbar<(int)hpBarValue){
+                hpbar=(int)hpBarValue;
+            }
+            g2.fillRect(screenX+51, screenY+31,hpbar, gp.tileSize/4+1);
             g2.setColor(new Color(255,0,30));
             g2.fillRect(screenX+50, screenY+30, (int)hpBarValue, gp.tileSize/4);
         
