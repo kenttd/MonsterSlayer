@@ -370,9 +370,11 @@ public class ui {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
-                String name = parts[0];
-                int score = Integer.parseInt(parts[1]);
-                scores.add(new scoreHandler(name, score));
+                if(parts.length==2){
+                    String name = parts[0];
+                    int score = Integer.parseInt(parts[1]);
+                    scores.add(new scoreHandler(name, score));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
