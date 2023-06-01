@@ -245,7 +245,7 @@ public class bossEnemy extends entity{
             }
             
         }
-        g2.drawImage(image, screenX, screenY,gp.tileSize*6,gp.tileSize*6,null);
+        g2.drawImage(image, screenX-(gp.tileSize*3/2), screenY-(gp.tileSize*3/2),gp.tileSize*6,gp.tileSize*6,null);
         double oneScale=(double)gp.tileSize/maxLife;
         double hpBarValue=oneScale*life;
         g2.setColor(new Color(35,35,35));
