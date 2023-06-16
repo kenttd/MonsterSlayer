@@ -453,6 +453,7 @@ public class ui {
         if(gp.gameState==gp.afterGameOverState){
             drawAfterGameOver();
         }
+        
         JFrame frame = new JFrame("Input Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
@@ -485,7 +486,7 @@ public class ui {
                 {
                     String filename= "highScores.txt";
                     FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-                    fw.write("\n"+name+" "+gp.player.score);//appends the string to the file
+                    fw.write(name+" "+gp.player.score+"\n");//appends the string to the file
                     fw.close();
                     gp.player.life=gp.player.maxLife;
                 }

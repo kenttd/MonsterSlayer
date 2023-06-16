@@ -201,6 +201,7 @@ public class player extends entity{
             spriteCounter = 0;
         }
     }
+    // kalau player mati
     if(life<=0){
         gp.gameState=gp.gameOverState;
     }
@@ -322,6 +323,7 @@ public class player extends entity{
         }
         g2.drawImage(image, screenX,screenY,gp.tileSize*3,gp.tileSize*3,null);
         if(gp.npc[0].attack){
+            // kalau enemy attack
             actionLockCounter++;
             g2.setColor(new Color(255, 0, 0, 127)); // Red color with 50% transparency
             g2.fillRect(screenX+55, screenY+60, gp.tileSize-10 , gp.tileSize+20 );

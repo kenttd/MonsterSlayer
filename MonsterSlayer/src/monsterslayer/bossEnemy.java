@@ -70,10 +70,10 @@ public class bossEnemy extends entity{
             }
             actionLockCounter=0;
         }
-        if(checkIfThereIsPlayer(70)){
+        if(checkIfThereIsPlayer(10000)){
             enemyAttackCounter++;
             if(enemyAttackCounter==60){// menyerang setiap 1 detik
-                System.out.println("enemy detect player");
+                System.out.println("boss detect player");
                 enemyAttackCounter=0;
                 gp.player.life-=1;
                 gp.playSFX(4);
