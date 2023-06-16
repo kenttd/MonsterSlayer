@@ -27,6 +27,7 @@ public class player extends entity{
     public int score=0;
     public boolean pickedRed=false;
     private int gold=0;
+    public int hpbar=gp.tileSize;
     private HashMap<String,Integer> inventory= new HashMap<>();
     public player(gamePanel gp, keyHandler keyH){
         super(gp);//memanggil contructor dari superclass
@@ -36,7 +37,7 @@ public class player extends entity{
         screenY=gp.screenHeight/2-(gp.tileSize/2);
         setDefaultValues();
         getPlayerImage();
-        solidArea=new Rectangle(60,64,32,20);
+        solidArea=new Rectangle(60,80,32,42);
 //        solidArea=new Rectangle(60,50,10,30);
         solidAreaDefaultX=solidArea.x;
         solidAreaDefaultY=solidArea.y;
@@ -114,12 +115,19 @@ public class player extends entity{
             score+=10;
             keyH.flagcat=true;
             }
-            if (isPlayerNearSlimeEnemy(500)&&!keyH.flagslime){
+            if (isPlayerNearSlimeEnemy(70)&&!keyH.flagslime){
             abc++;
             System.out.println("berhasil slime"+abc);
             gp.npc[1].life-=1;
             score+=20;
             keyH.flagslime=true;
+            }
+            if (isPlayerNearBossEnemy(70)&&!keyH.flagboss){
+            abc++;
+            System.out.println("berhasil boss"+abc);
+            gp.npc[2].life-=1;
+            score+=30;
+            keyH.flagboss=true;
             }
         }
         
@@ -336,7 +344,10 @@ public class player extends entity{
         double oneScale=(double)gp.tileSize/maxLife;
             double hpBarValue=oneScale*life;
             g2.setColor(new Color(35,35,35));
-            g2.fillRect(screenX+51, screenY+31,gp.tileSize, gp.tileSize/4+1);
+            if(hpbar<(int)hpBarValue){
+                hpbar=(int)hpBarValue;
+            }
+            g2.fillRect(screenX+51, screenY+31,hpbar, gp.tileSize/4+1);
             g2.setColor(new Color(255,0,30));
             g2.fillRect(screenX+50, screenY+30, (int)hpBarValue, gp.tileSize/4);
         
@@ -419,8 +430,8 @@ public class player extends entity{
     }
     public boolean isPlayerNearSlimeEnemy(int distance) {
         if(gp.npc[1]!=null){
-            int dx =worldX - gp.npc[0].worldX;
-            int dy =worldY - gp.npc[0].worldY;
+            int dx =worldX - gp.npc[1].worldX;
+            int dy =worldY - gp.npc[1].worldY;
             return Math.sqrt(dx * dx + dy * dy) <= distance;
         }
         return false;
@@ -430,6 +441,15 @@ public class player extends entity{
         //the straight-line distance between them. If this distance is less than or equal 
         //to the specified distance parameter, the method returns true to indicate that the player 
         //is near the catEnemy. Otherwise, it returns false.
+    }
+    
+    public boolean isPlayerNearBossEnemy(int distance) {
+        if(gp.npc[2]!=null){
+            int dx =worldX - gp.npc[2].worldX;
+            int dy =worldY - gp.npc[2].worldY;
+            return Math.sqrt(dx * dx + dy * dy) <= distance;
+        }
+        return false;
     }
 
     public HashMap<String, Integer> getInventory() {
